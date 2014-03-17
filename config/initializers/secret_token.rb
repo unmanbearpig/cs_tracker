@@ -9,4 +9,16 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-CsTracker::Application.config.secret_key_base = 'ea57d732a486b4ca254d81b960911beac5999c3c9da54eb5d3b5bb85c84b78f4a6cc4c55295a06f8f3a42bfd12a76293970aa9965ebbaa74b6143a6dd29975b0'
+
+def secure_token
+  token_file = Rails.root.join('.secret_token')
+  if File.exist?(token_file)
+    File.read(token_file).chomp
+  else
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+CsTracker::Application.config.secret_key_base = secure_token
