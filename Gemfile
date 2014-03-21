@@ -64,3 +64,4 @@ end
 gem 'couchsurfing_client'
 
 gem 'devise'
+gem 'haml'
