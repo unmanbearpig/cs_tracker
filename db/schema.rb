@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317140239) do
+ActiveRecord::Schema.define(version: 20140318152819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,5 +23,14 @@ ActiveRecord::Schema.define(version: 20140317140239) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "search_queries", force: true do |t|
+    t.integer  "location_id"
+    t.string   "search_mode"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "search_queries", ["location_id"], name: "index_search_queries_on_location_id", using: :btree
 
 end
