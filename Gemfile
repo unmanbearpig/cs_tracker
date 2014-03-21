@@ -62,3 +62,5 @@ group :test do
 end
 
 gem 'couchsurfing_client'
+
+gem 'devise'
