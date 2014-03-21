@@ -2,7 +2,9 @@ require_relative 'poro_factory'
 
 FactoryGirl.define do
   factory :location do
-    data { PoroFactory.location_hash }
+    location_hash = PoroFactory.location_hash
+    data location_hash
+    city_id location_hash['city_id']
   end
 
   factory :search_query do
