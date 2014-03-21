@@ -11,18 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140318152819) do
+ActiveRecord::Schema.define(version: 20140321051712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
   create_table "locations", force: true do |t|
-    t.string   "city_id"
+    t.string   "city_id",    null: false
     t.hstore   "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "search_items", force: true do |t|
+    t.integer  "search_result_id"
+    t.integer  "item_index",       null: false
+    t.hstore   "data"
+    t.string   "profile_id",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "search_items", ["search_result_id"], name: "index_search_items_on_search_result_id", using: :btree
 
   create_table "search_queries", force: true do |t|
     t.integer  "location_id"
@@ -32,5 +43,13 @@ ActiveRecord::Schema.define(version: 20140318152819) do
   end
 
   add_index "search_queries", ["location_id"], name: "index_search_queries_on_location_id", using: :btree
+
+  create_table "search_results", force: true do |t|
+    t.integer  "search_query_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "search_results", ["search_query_id"], name: "index_search_results_on_search_query_id", using: :btree
 
 end

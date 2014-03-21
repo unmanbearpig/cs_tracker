@@ -57,6 +57,8 @@ group :test do
   gem 'database_cleaner'
   gem 'faker'
   gem 'factory_girl_rails'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 gem 'couchsurfing_client'

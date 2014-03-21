@@ -8,7 +8,7 @@ class SearchQuery < ActiveRecord::Base
   end
 
   def create_cs_search_query(cs)
-    cs.search().where(search_params)
+    cs.search.where(search_params)
   end
 
   def search_params
