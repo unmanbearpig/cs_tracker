@@ -1,4 +1,6 @@
 class Location < ActiveRecord::Base
+  include Importer
+
   store_accessor :data, :city, :state, :country, :region, :state_id,
                         :country_id, :region_id, :longitude, :latitude
 
@@ -7,30 +9,11 @@ class Location < ActiveRecord::Base
     import(cs.find_location(query_string))
   end
 
-  # Import CouchSurfing locations from a hash or an array of hashes
-  def self.import location_data
-    if location_data.kind_of? Array
-      location_data.map { |loc_data| import_single_location loc_data }
-    else
-      import_single_location location_data
-    end
-  end
-
   def to_h
     data
   end
 
-  def self.import_single_location location_data
-    hash = if location_data.kind_of? Hash
-             location_data
-           elsif location_data.respond_to? :to_h
-             location_data.to_h
-           else
-             fail 'Argument is not a hash and doesn\'t respond to to_h'
-           end
-
-    fail 'Location data doesn\'t have city_id' unless hash.key? 'city_id'
-
+  def self.import_hash hash
     update_by_hash hash
   end
 
