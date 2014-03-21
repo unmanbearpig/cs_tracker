@@ -65,3 +65,4 @@ gem 'couchsurfing_client'
 
 gem 'devise'
 gem 'haml'
+gem 'foundation-rails'
