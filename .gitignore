@@ -16,3 +16,4 @@
 /tmp
 .secret_token
 /config/couchsurfing.yml
+/spec/vcr_cassettes/
