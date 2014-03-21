@@ -43,3 +43,22 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
 end
+
+
+def configure_vcr
+  VCR.configure do |c|
+    c.cassette_library_dir = 'spec/vcr_cassettes'
+    c.hook_into :webmock
+  end
+end
+
+TEST_ONLINE = false
+TEST_ONLINE = ENV['CS_TEST_ONLINE'].downcase == 'true' if ENV.include? 'CS_TEST_ONLINE'
+
+def vcr options = {}, &block
+  name = self.class.metadata[:example_group][:full_description].gsub(/\s+/, '_')
+  options.merge! record: :all if TEST_ONLINE
+  VCR.use_cassette name, options, &block
+end
+
+DatabaseCleaner.start
