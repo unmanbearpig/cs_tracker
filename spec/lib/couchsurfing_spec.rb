@@ -7,7 +7,7 @@ describe CouchSurfing do
   context 'valid config' do
     before do
       CouchSurfing
-        .stub(:fetch_config) { {'username' => 'user', 'password' => 'pass'} }
+        .stub(:credentials) { {'username' => 'user', 'password' => 'pass'} }
     end
 
 
