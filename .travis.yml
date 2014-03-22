@@ -5,3 +5,7 @@ rvm:
 
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
+
+env:
+  global:
+    secure: hq3/2pWE4m85XglYKimpcfIfvws7Cz+AERyyoA4C3f4HLZWvYXqqC4ca/7Ow0ll9Z+KZEKjqTbTrtuWLYGw7+RniS6QuBxFnJrbw+mTw9WAqlLaac6NpclYSqGTmHYRbP1NKAO73I+CFLxmBCtFhl5XVFwRS1dyKfpk+aNHlONg=
