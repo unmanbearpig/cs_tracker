@@ -3,9 +3,23 @@ class CouchSurfing
 
   def self.instance
     # TODO: cache cookie somewhere so we don't have to sign in all the time
-    cs = CouchSurfingClient::CouchSurfing.new(config['username'], config['password'])
+    cs = CouchSurfingClient::CouchSurfing.new(credentials['username'], credentials['password'])
     cs.sign_in
     cs
+  end
+
+  def self.credentials
+    return env_credentials if env_credentials
+    config
+  end
+
+  def self.env_credentials
+    if ENV.key?('CS_USERNAME') && ENV.key?('CS_PASSWORD')
+      {
+        'username' => ENV['CS_USERNAME'],
+        'password' => ENV['CS_PASSWORD']
+      }
+    end
   end
 
   def self.config
