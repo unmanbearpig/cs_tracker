@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/unmanbearpig/couchsurfing_client
+  revision: 001e1a02ec0b325b232082e24c0d542dc2700357
+  specs:
+    couchsurfing_client (0.0.2.alpha)
+      mechanize (~> 2.6.0)
+      nokogiri
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -38,9 +46,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    couchsurfing_client (0.0.1)
-      mechanize (~> 2.6.0)
-      nokogiri
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     database_cleaner (1.2.0)
@@ -51,7 +56,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    domain_name (0.5.16)
+    domain_name (0.5.17)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.0.2)
@@ -193,7 +198,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
-  couchsurfing_client
+  couchsurfing_client!
   database_cleaner
   devise
   factory_girl_rails

@@ -61,7 +61,7 @@ group :test do
   gem 'vcr'
 end
 
-gem 'couchsurfing_client'
+gem 'couchsurfing_client', git: 'https://github.com/unmanbearpig/couchsurfing_client'
 
 gem 'devise'
 gem 'haml'
