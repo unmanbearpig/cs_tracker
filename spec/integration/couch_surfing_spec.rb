@@ -13,6 +13,10 @@ describe 'CouchSurfing integration' do
     end
   end
 
+  after :all do
+    DatabaseCleaner.clean_with :truncation
+  end
+
   describe 'Location' do
     describe 'fetch' do
       attr_reader :results, :city_name
@@ -25,6 +29,10 @@ describe 'CouchSurfing integration' do
         vcr do
           @results = Location.fetch cs, city_name
         end
+      end
+
+      after :all do
+        DatabaseCleaner.clean_with :truncation
       end
 
       it 'fetches locations from cs' do
@@ -55,6 +63,11 @@ describe 'CouchSurfing integration' do
         @search_result = SearchResult.fetch cs, search_query
       end
     end
+
+    after :all do
+      DatabaseCleaner.clean_with :truncation
+    end
+
 
     it 'returns items' do
       expect(search_result.reject(&:nil?).count).to be > 0
