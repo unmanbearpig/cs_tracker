@@ -16,4 +16,14 @@ FactoryGirl.define do
     search_query
   end
 
+  factory :user do
+    email { Faker::Internet.email }
+    password { SecureRandom.hex(10) }
+  end
+
+  factory :user_search_query do
+    user
+    search_query
+  end
+
 end
