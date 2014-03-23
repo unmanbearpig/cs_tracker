@@ -59,6 +59,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'webmock'
   gem 'vcr'
+  gem 'capybara'
 end
 
 gem 'couchsurfing_client', git: 'https://github.com/unmanbearpig/couchsurfing_client'
