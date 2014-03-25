@@ -69,8 +69,9 @@ class BackgroundJob
   end
 
   def status
-    return :not_scheduled if expired?
-    raw_status
+    result = raw_status
+    return :not_scheduled if expired? && result != :completed
+    result
   end
 
   def raw_status
@@ -81,9 +82,7 @@ class BackgroundJob
   end
 
   def expired?
-    if raw_status != :not_scheduled
-      Time.now - scheduled_at > klass.timeout
-    end
+    Time.now - scheduled_at > klass.timeout
   end
 
   def results_count
