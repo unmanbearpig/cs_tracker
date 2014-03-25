@@ -60,6 +60,7 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara'
+  gem 'mock_redis'
 end
 
 gem 'couchsurfing_client', git: 'https://github.com/unmanbearpig/couchsurfing_client'
@@ -68,3 +69,5 @@ gem 'devise'
 gem 'haml'
 gem 'foundation-rails'
 gem 'pg_search'
+gem 'resque'
+gem 'redis-namespace'
