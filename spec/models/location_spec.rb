@@ -37,7 +37,6 @@ describe Location do
       result = Location.search 'Zombieland'
       expect(result.count).to eq 1
       expect(result.first.country).to eq 'United States of Zombieland'
-      binding.pry
     end
 
     it 'searches by multiple fields' do
