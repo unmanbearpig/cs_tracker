@@ -82,6 +82,7 @@ class BackgroundJob
   end
 
   def expired?
+    return unless scheduled_at
     Time.now - scheduled_at > klass.timeout
   end
 
@@ -97,9 +98,22 @@ class BackgroundJob
     store.rpush 'result', result
   end
 
+  def abort
+    erase_job
+  end
+
+  def keys
+    self.class.keys klass
+  end
+
+  def self.keys klass
+    klass_store(klass).smembers 'keys'
+  end
+
   def enqueue *args
     scheduled!
     klass.perform_async key, *args
+    klass_store.sadd 'keys', key
   end
 
   def self.enqueue klass, key, *args
@@ -139,8 +153,15 @@ class BackgroundJob
     keys << 'result'
   end
 
-  def store
-    @store ||= Redis::Namespace.new "#{klass.to_s}:#{key}"
+  def self.klass_store klass
+    @store ||= Redis::Namespace.new "#{klass.to_s}:klass"
   end
 
+  def klass_store
+    self.class.klass_store klass
+  end
+
+  def store
+    @store ||= Redis::Namespace.new "#{klass.to_s}:keys:#{key}"
+  end
 end

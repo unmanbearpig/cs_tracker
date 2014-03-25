@@ -17,6 +17,10 @@ class BackgroundJobWorker
     BackgroundJob.new self, key
   end
 
+  def self.keys
+    BackgroundJob.keys self
+  end
+
   def job
     @job ||= self.class.job key
   end

@@ -25,7 +25,7 @@ class Location < ActiveRecord::Base
 
     return job.status if job.scheduled?
 
-    job.enqueue query_string
+    job.enqueue
 
     return :scheduled
   end
