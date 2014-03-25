@@ -96,9 +96,9 @@ describe Location do
     end
 
     context 'invalid input' do
-      it 'fails if there is no city_id' do
-        expect { Location.import test_hash_with_no_city_id }
-          .to raise_error
+      it 'returns nil if there is no city_id' do
+        expect(Location.import test_hash_with_no_city_id)
+          .to eq nil
       end
 
       context 'duplicates in db' do
