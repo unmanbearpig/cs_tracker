@@ -17,6 +17,7 @@ module Importer
 
     def import_multiple_items array, *args
       array.map { |item| import_single_item item, *args }
+        .reject(&:nil?)
     end
 
     def import_single_item data, *args

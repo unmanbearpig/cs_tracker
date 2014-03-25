@@ -69,5 +69,5 @@ gem 'devise'
 gem 'haml'
 gem 'foundation-rails'
 gem 'pg_search'
-gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
+gem 'sidekiq'
 gem 'redis-namespace'

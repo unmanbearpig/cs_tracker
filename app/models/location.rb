@@ -2,7 +2,11 @@ class Location < ActiveRecord::Base
   include Importer
   include PgSearch
 
-  pg_search_scope :search, against: [:city, :state, :country]
+  pg_search_scope :search,
+                  against: [:city, :state, :country],
+                  :using => {
+                    :tsearch => {:dictionary => "english"}
+                  }
 
   store_accessor :data, :region, :state_id,
                         :country_id, :region_id, :longitude, :latitude
@@ -10,6 +14,29 @@ class Location < ActiveRecord::Base
   # Search CouchSurfing for locations and import them
   def self.fetch cs, query_string
     import(cs.find_location(query_string))
+  end
+
+  def self.background_job query_string
+    LocationFetcher.job query_string
+  end
+
+  def self.background_fetch query_string
+    job = background_job query_string
+
+    puts job
+    return job.status if job.scheduled?
+
+    puts 'enq'
+    job.enqueue query_string
+
+    puts 'sch'
+    return :scheduled
+  end
+
+  def self.background_fetch_results query_string
+    job = LocationFetcher.job query_string
+    return nil unless job.completed?
+    job.results.map { |loc_id| Location.find loc_id.to_i }
   end
 
   def to_h
@@ -42,6 +69,7 @@ class Location < ActiveRecord::Base
 
   def self.create_by_hash hash
     location = new_by_hash hash
+    return unless location
     location.save
     location
   end

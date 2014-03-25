@@ -44,6 +44,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -52,6 +54,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    connection_pool (2.0.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     database_cleaner (1.2.0)
@@ -103,7 +106,6 @@ GEM
     mini_portile (0.5.2)
     minitest (4.7.5)
     mock_redis (0.11.0)
-    mono_logger (1.1.0)
     multi_json (1.9.0)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
@@ -124,8 +126,6 @@ GEM
     pry-rails (0.3.2)
       pry (>= 0.9.10)
     rack (1.5.2)
-    rack-protection (1.5.2)
-      rack
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.0.2)
@@ -147,12 +147,6 @@ GEM
     redis (3.0.7)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
-    resque (1.25.2)
-      mono_logger (~> 1.0)
-      multi_json (~> 1.0)
-      redis-namespace (~> 1.3)
-      sinatra (>= 0.9.2)
-      vegas (~> 0.1.2)
     rspec-core (2.14.8)
     rspec-expectations (2.14.5)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -181,10 +175,12 @@ GEM
     shoulda-context (1.1.6)
     shoulda-matchers (2.5.0)
       activesupport (>= 3.0.0)
-    sinatra (1.4.4)
-      rack (~> 1.4)
-      rack-protection (~> 1.4)
-      tilt (~> 1.3, >= 1.3.4)
+    sidekiq (2.17.7)
+      celluloid (>= 0.15.2)
+      connection_pool (>= 1.0.0)
+      json
+      redis (>= 3.0.6)
+      redis-namespace (>= 1.3.1)
     slop (3.4.7)
     sprockets (2.11.0)
       hike (~> 1.2)
@@ -200,6 +196,7 @@ GEM
     thread_safe (0.2.0)
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
+    timers (1.1.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -213,8 +210,6 @@ GEM
       unf_ext
     unf_ext (0.0.6)
     vcr (2.8.0)
-    vegas (0.1.11)
-      rack (>= 1.0.0)
     warden (1.2.3)
       rack (>= 1.0)
     webmock (1.17.4)
@@ -245,11 +240,11 @@ DEPENDENCIES
   pry-rails
   rails (= 4.0.2)
   redis-namespace
-  resque
   rspec-rails
   sass-rails (~> 4.0.0)
   sdoc
   shoulda
+  sidekiq
   sqlite3
   turbolinks
   uglifier (>= 1.3.0)
