@@ -23,13 +23,10 @@ class Location < ActiveRecord::Base
   def self.background_fetch query_string
     job = background_job query_string
 
-    puts job
     return job.status if job.scheduled?
 
-    puts 'enq'
     job.enqueue query_string
 
-    puts 'sch'
     return :scheduled
   end
 
