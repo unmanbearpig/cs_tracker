@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(version: 20140323062527) do
 
   create_table "locations", force: true do |t|
     t.string   "city_id",    null: false
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
     t.hstore   "data"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -9,35 +9,35 @@ describe Location do
     Array.new(number).map { build_cs_location }
   end
 
-  describe Location do
-    let(:location) { build :location }
-
-    it 'has data accessors' do
-      expect(location.city).to eq location.data['city']
-    end
-  end
-
   describe 'Location#import' do
     let(:test_hash) { PoroFactory.location_hash }
     let(:test_hash_with_no_city_id) { test_hash.reject { |k, _| k == 'city_id' } }
 
     context 'valid input' do
       context 'single location' do
+        attr_reader :new_location
+
         before do
           @new_location = Location.import test_hash
         end
 
         it 'returns new location' do
-          expect(@new_location).to be_kind_of(Location)
+          expect(new_location).to be_kind_of(Location)
         end
 
         it 'saves the location' do
           expect(Location.find_by(city_id: test_hash['city_id'].to_s))
-            .to eq @new_location
+            .to eq new_location
+        end
+
+        it 'saves city, state and country' do
+          expect(new_location.city).to eq test_hash['city']
+          expect(new_location.state).to eq test_hash['state']
+          expect(new_location.country).to eq test_hash['country']
         end
 
         it 'saves hash to db' do
-          expect(@new_location.data).to eq test_hash
+          expect(new_location.data).to eq test_hash
         end
 
       end

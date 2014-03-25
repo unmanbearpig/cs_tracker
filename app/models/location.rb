@@ -1,7 +1,7 @@
 class Location < ActiveRecord::Base
   include Importer
 
-  store_accessor :data, :city, :state, :country, :region, :state_id,
+  store_accessor :data, :region, :state_id,
                         :country_id, :region_id, :longitude, :latitude
 
   # Search CouchSurfing for locations and import them
@@ -48,8 +48,12 @@ class Location < ActiveRecord::Base
 
     location = Location.new
     location.city_id = hash['city_id'].to_s
+
+    location.city = hash['city']
+    location.state = hash['state']
+    location.country = hash['country']
+
     location.data = hash
     location
   end
-
 end
