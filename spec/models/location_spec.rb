@@ -9,6 +9,50 @@ describe Location do
     Array.new(number).map { build_cs_location }
   end
 
+  describe 'Full text search' do
+    before do
+      create :location, city: 'Shwiskynsynn Caucasian', state: 'Duderino', country: 'Shmongolia'
+      create :location, city: 'Saint Townshed', state: 'Saint Newraska', country: 'United States of Zombieland'
+      create :location, city: 'Shmoo', state: 'South Beetlejuice', country: 'Vicinity'
+      create :location, city: 'New Shmoo', state: 'North Beetlejuice', country: 'Vicinity'
+    end
+
+    it 'returns locations with the word in city' do
+      result = Location.search('Shwiskynsynn')
+      expect(result.count).to eq 1
+      expect(result.first.city).to eq 'Shwiskynsynn Caucasian'
+
+      result = Location.search('Caucasian')
+      expect(result.count).to eq 1
+      expect(result.first.city).to eq 'Shwiskynsynn Caucasian'
+    end
+
+    it 'returns locations with the word in state' do
+      result = Location.search('Newraska')
+      expect(result.count).to eq 1
+      expect(result.first.state).to eq 'Saint Newraska'
+    end
+
+    it 'returns locations with the word in country' do
+      result = Location.search 'Zombieland'
+      expect(result.count).to eq 1
+      expect(result.first.country).to eq 'United States of Zombieland'
+      binding.pry
+    end
+
+    it 'searches by multiple fields' do
+      result = Location.search 'Townshed, Newraska'
+      expect(result.count).to eq 1
+      expect(result.first.city).to eq 'Saint Townshed'
+    end
+
+    it 'returns more relevant results first' do
+      result = Location.search 'Shmoo'
+      expect(result.count).to eq 2
+      expect(result.first.city).to eq 'Shmoo'
+    end
+  end
+
   describe 'Location#import' do
     let(:test_hash) { PoroFactory.location_hash }
     let(:test_hash_with_no_city_id) { test_hash.reject { |k, _| k == 'city_id' } }

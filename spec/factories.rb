@@ -3,8 +3,16 @@ require_relative 'poro_factory'
 FactoryGirl.define do
   factory :location do
     location_hash = PoroFactory.location_hash
+
     data location_hash
-    city_id location_hash['city_id']
+
+    city location_hash['city']
+    state location_hash['state']
+    country location_hash['country']
+
+    after :build do |l|
+      l.city_id = location_hash['city_id'].to_s
+    end
   end
 
   factory :search_query do

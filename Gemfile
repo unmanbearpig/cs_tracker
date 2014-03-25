@@ -67,3 +67,4 @@ gem 'couchsurfing_client', git: 'https://github.com/unmanbearpig/couchsurfing_cl
 gem 'devise'
 gem 'haml'
 gem 'foundation-rails'
+gem 'pg_search'

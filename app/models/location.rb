@@ -1,5 +1,8 @@
 class Location < ActiveRecord::Base
   include Importer
+  include PgSearch
+
+  pg_search_scope :search, against: [:city, :state, :country]
 
   store_accessor :data, :region, :state_id,
                         :country_id, :region_id, :longitude, :latitude
