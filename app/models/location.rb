@@ -33,7 +33,7 @@ class Location < ActiveRecord::Base
   def self.background_fetch_results query_string
     job = background_job query_string
     return nil unless job.completed?
-    job.results.map { |loc_id| Location.find loc_id.to_i }
+    job.results.map(&:to_i)
   end
 
 
