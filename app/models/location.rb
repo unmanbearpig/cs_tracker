@@ -17,7 +17,7 @@ class Location < ActiveRecord::Base
   end
 
   def self.background_job query_string
-    LocationFetcher.job query_string
+    LocationFetcher.job query_string.downcase
   end
 
   def self.background_fetch query_string
