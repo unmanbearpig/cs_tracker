@@ -1,6 +1,7 @@
 class Location < ActiveRecord::Base
   include Importer
   include PgSearch
+  include LocationBackgroundSearch
 
   pg_search_scope :search,
                   against: [:city, :state, :country],
@@ -14,45 +15,6 @@ class Location < ActiveRecord::Base
   # Search CouchSurfing for locations and import them
   def self.fetch cs, query_string
     import(cs.find_location(query_string))
-  end
-
-  def self.background_job query_string
-    LocationFetcher.job query_string.downcase
-  end
-
-  def self.background_fetch query_string
-    job = background_job query_string
-
-    return job.status if job.scheduled?
-
-    job.enqueue
-
-    return :scheduled
-  end
-
-  def self.background_fetch_results query_string
-    job = background_job query_string
-    return nil unless job.completed?
-    job.results.map(&:to_i)
-  end
-
-
-  def self.search_by_previous_queries query_string, exact_match = false
-    keys = LocationFetcher.keys
-    if exact_match
-      matched_keys = keys.select { |k| k == query_string && break }
-    else
-      matched_keys = keys.select { |k| k.include? query_string }
-    end
-
-    key_results = matched_keys.map { |k| background_fetch_results k }.flatten(1)
-  end
-
-  def self.megasearch query_string
-    full_text_result = Set.new search(query_string)
-    query_search_result = Set.new search_by_previous_queries(query_string)
-    both = full_text_result & query_search_result
-    (both + full_text_result + query_search_result).to_a
   end
 
   def to_h
