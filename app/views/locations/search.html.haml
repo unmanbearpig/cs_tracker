@@ -1,0 +1,18 @@
+= content_for :title do
+  Location search
+
+= content_for :content do
+  %h1 Locations
+  %input.location-text-field(data-bind="value: query, valueUpdate: 'input'")
+  .status(data-bind="text: status")
+  %table
+    %tbody.locations-list(data-bind="foreach: locations")
+      %tr.location
+        %td
+          %h4
+            %span.city-name(data-bind="text: city")
+            %small
+              %span.state(data-bind="text: state")
+          .country(data-bind="text: country")
+
+= render template: 'layouts/main'

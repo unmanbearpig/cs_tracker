@@ -1,16 +1,19 @@
 class LocationsController < ApplicationController
   def search
-    query = params[:q]
-    return render nothing: true, status: 400 if query.nil? || query.empty?
-
-    results = { status: task_status(query), locations: search_locations(query) }
-
     respond_to do |format|
-      format.json { render json: results }
+      format.html
+      format.json { render json: json_results(params) }
     end
   end
 
   private
+
+  def json_results params
+    query = params[:q]
+    return {status: :error, message: "empty query" } if query.nil? || query.empty?
+
+    results = { status: task_status(query), locations: search_locations(query) }
+  end
 
   def task_status query
     Location.background_fetch(query)
