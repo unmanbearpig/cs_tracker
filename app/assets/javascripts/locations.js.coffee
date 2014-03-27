@@ -12,7 +12,10 @@ LocationViewModel = () ->
     search_location = "/locations/search.json"
     $.getJSON search_location, {q: query}, (data) ->
       self.status(data.status)
-      self.locations(data.locations);
+
+      locations = self.add_location_urls data.locations
+
+      self.locations(locations);
 
       clearTimeout self.timer if self.timer != undefined
 
@@ -27,6 +30,14 @@ LocationViewModel = () ->
     return if ko.computedContext.isInitial() == false
     self.submitQuery(query)
 
+  self.add_location_urls = (locations) ->
+    return null unless locations
+    $.map locations, (location) ->
+      location.search_query_url = "/search_queries/show/" + location.id.toString()
+      location
+
+
   self
+
 
 ko.applyBindings(new LocationViewModel())

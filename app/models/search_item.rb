@@ -7,6 +7,11 @@ class SearchItem < ActiveRecord::Base
   validates :item_index, presence: true
   validates :search_result, uniqueness: { scope: [ :search_result, :item_index ] }
 
+ store_accessor :data, :age, :href, :name, :about, :gender, :mission,
+  :lives_in, :languages, :occupation,
+  :profile_id, :profile_pic, :last_in_time,
+  :photos_count, :friends_count, :last_in_location, :references_count
+
   def self.import_hash hash, search_result, item_index
     return unless hash[:profile_id]
     return unless item_index

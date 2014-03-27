@@ -10,7 +10,7 @@
       %tr.location
         %td
           %h4
-            %span.city-name(data-bind="text: city")
+            %a.city-name(data-bind="text: city, attr: {href: search_query_url}")
             %small
               %span.state(data-bind="text: state")
           .country(data-bind="text: country")

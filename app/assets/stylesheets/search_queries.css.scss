@@ -1,0 +1,21 @@
+// Place all the styles related to the search_queries controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.search-item .profile-pic {
+    max-height: 160px;
+
+}
+
+.search-items-table {
+    $table-border-style: none;
+    $table-border-size: 0px;
+}
+
+.no-borders {
+    border: none;
+}
+
+.search-item-thumbnail {
+    text-align: center;
+}

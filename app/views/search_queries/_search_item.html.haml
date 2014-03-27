@@ -1,0 +1,13 @@
+%tr.search-item
+  %td.search-item-thumbnail
+    %a.th
+      %img.profile-pic{:src => search_item.profile_pic}
+  %td
+    .profile-description
+      %h4
+        %a.full-name= search_item.name
+        %small
+          %span.country= search_item.lives_in
+      .occupation= search_item.occupation
+      .mission= search_item.mission
+      .about= search_item.about

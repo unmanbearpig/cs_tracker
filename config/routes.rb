@@ -1,8 +1,16 @@
 CsTracker::Application.routes.draw do
+  # get "search_queries/show/:location_id/:search_mode"
+
   devise_for :users
   root 'home#index'
 
-  get "locations/search"
+  get 'search_queries/show/:location_id(/:search_mode)', to: 'search_queries#show', as: :show_search_query
+
+  resource :locations, only: :search do
+    get 'search'
+  end
+
+  #get "locations/search"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

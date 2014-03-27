@@ -1,0 +1,17 @@
+= content_for :title do
+  = "#{@location.city} #{humanized_search_mode}"
+
+= content_for :content do
+  %h1= "#{@location.city} #{humanized_search_mode}"
+
+  %table.no-borders.search-items-table
+    %tbody
+      - if @search_items.nil? || @search_items.empty?
+        no items
+      - else
+        = render partial: 'search_item', collection: @search_items
+
+
+
+
+= render template: 'layouts/main'
