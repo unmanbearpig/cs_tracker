@@ -39,3 +39,4 @@ class BackgroundJobWorker
   end
 
 end
+    raise
