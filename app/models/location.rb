@@ -3,6 +3,8 @@ class Location < ActiveRecord::Base
   include PgSearch
   include LocationBackgroundSearch
 
+  has_many :search_queries
+
   pg_search_scope :search,
                   against: [:city, :state, :country],
                   :using => {
