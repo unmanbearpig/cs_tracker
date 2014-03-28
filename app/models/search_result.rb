@@ -4,6 +4,8 @@ class SearchResult < ActiveRecord::Base
 
   validates :search_query, presence: true
 
+  VALID_FOR = 4.hours
+
   def self.fetch cs, search_query, number_of_items = nil
     return unless search_query.kind_of? SearchQuery
 
