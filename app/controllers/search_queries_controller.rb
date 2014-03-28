@@ -8,7 +8,7 @@ class SearchQueriesController < ApplicationController
     return render text: 'location is not defined', status: 400 unless location_id
 
     @location = Location.find location_id
-    @search_mode = search_mode
+    @search_mode = search_mode.upcase
 
     @search_query = SearchQuery.where(location: @location, search_mode: @search_mode)
       .first_or_create
