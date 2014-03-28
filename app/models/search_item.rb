@@ -12,8 +12,8 @@ class SearchItem < ActiveRecord::Base
   :photos_count, :friends_count, :last_in_location, :references_count
 
   def self.import_hash hash, search_result, item_index
-    return unless hash[:profile_id]
-    return unless item_index
+    fail 'empty profile_id' if !hash.key? :profile_id || hash[:profile_id].nil? || hash[:profile_id].empty?
+    fail 'empty item_index' unless item_index
 
     item = new
     item.data = hash
