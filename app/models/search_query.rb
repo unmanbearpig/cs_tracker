@@ -60,7 +60,7 @@ class SearchQuery < ActiveRecord::Base
   end
 
   def sanitize_search_mode
-    search_mode = search_mode.upcase
+    search_mode = self.search_mode.upcase
   end
 
 end
