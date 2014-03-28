@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 CsTracker::Application.routes.draw do
   # get "search_queries/show/:location_id/:search_mode"
 
@@ -9,6 +11,8 @@ CsTracker::Application.routes.draw do
   resource :locations, only: :search do
     get 'search'
   end
+
+  mount Sidekiq::Web => '/sidekiq'
 
   #get "locations/search"
 
