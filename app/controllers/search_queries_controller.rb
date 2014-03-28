@@ -13,6 +13,7 @@ class SearchQueriesController < ApplicationController
     @search_query = SearchQuery.where(location: @location, search_mode: @search_mode)
       .first_or_create
 
-    @search_items = @search_query.last_items.take(30)
+    @search_items = @search_query.last_items
+    @status = @search_query.update_results
   end
 end
