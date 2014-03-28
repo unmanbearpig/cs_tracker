@@ -1,8 +1,9 @@
 = content_for :title do
   = "#{@location.city} #{humanized_search_mode}"
-
 = content_for :content do
-  %h1= "#{@location.city} #{humanized_search_mode}"
+  %h1
+    = "#{@location.city} #{humanized_search_mode}"
+    %small= @status.to_s
 
   %table.no-borders.search-items-table
     %tbody
