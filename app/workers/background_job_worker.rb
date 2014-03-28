@@ -17,6 +17,10 @@ class BackgroundJobWorker
     BackgroundJob.new self, key
   end
 
+  def self.status key
+    BackgroundJob.new(self, key).status
+  end
+
   def self.keys
     BackgroundJob.keys self
   end
@@ -28,6 +32,8 @@ class BackgroundJobWorker
   def perform key, *args
     @key = key
 
+    return if job.running?
+
     job.running!
 
     do_the_job key, *args
@@ -36,7 +42,7 @@ class BackgroundJobWorker
   rescue => error
     job.failed!
     job.error = error
+    raise
   end
 
 end
-    raise
