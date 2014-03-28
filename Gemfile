@@ -73,3 +73,6 @@ gem 'pg_search'
 gem 'sidekiq'
 gem 'redis-namespace'
 gem 'knockoutjs-rails'
+
+# for sidekiq ui
+gem 'sinatra', '>= 1.3.0', :require => nil
