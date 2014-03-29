@@ -33,7 +33,7 @@ module LocationBackgroundSearch
         matched_keys = keys.select { |k| k.include? query_string }
       end
 
-      key_results = matched_keys.map { |k| background_fetch_results k }.flatten(1)
+      key_results = matched_keys.map { |k| background_fetch_results k }.flatten(1).uniq
     end
   end
 end
