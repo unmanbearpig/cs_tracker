@@ -1,6 +1,8 @@
 class LocationsController < ApplicationController
   ALLOWED_JSON_FIELDS = %w(id city state country)
 
+  layout 'main'
+
   def search
     gon.search_location = search_locations_path(format: :json)
 

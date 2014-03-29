@@ -1,6 +1,8 @@
 class SearchQueriesController < ApplicationController
   DEFAULT_SEARCH_MODE = 'H'
 
+  layout 'main'
+
   def find_or_create
     location_id = params[:location_id] || nil
     search_mode = params[:search_mode] || DEFAULT_SEARCH_MODE
