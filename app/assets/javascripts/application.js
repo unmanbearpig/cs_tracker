@@ -11,9 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require foundation
 //= require knockout
-//= require turbolinks
+
 
 $(function(){ $(document).foundation(); });
+
+//
+//= require turbolinks
