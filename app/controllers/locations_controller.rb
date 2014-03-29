@@ -1,5 +1,7 @@
 class LocationsController < ApplicationController
   def search
+    gon.search_location = search_locations_path(format: :json)
+
     respond_to do |format|
       format.html
       format.json { render json: json_results(params) }

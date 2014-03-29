@@ -85,6 +85,9 @@ GEM
     foundation-rails (5.2.1.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
+    gon (5.0.1)
+      actionpack (>= 2.3.0)
+      json
     haml (4.0.5)
       tilt
     hike (1.2.3)
@@ -247,6 +250,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   foundation-rails
+  gon
   haml
   jbuilder (~> 1.2)
   jquery-rails

@@ -9,7 +9,7 @@ LocationViewModel = () ->
   self.submitQuery = (query) ->
     return if query == undefined
 
-    search_location = "/locations/search.json"
+    search_location = gon.search_location
     $.getJSON search_location, {q: query}, (data) ->
       self.status(data.status)
 
@@ -27,7 +27,6 @@ LocationViewModel = () ->
 
   self.update = ko.computed () ->
     query = self.query()
-    return if ko.computedContext.isInitial() == false
     self.submitQuery(query)
 
   self.add_location_urls = (locations) ->
