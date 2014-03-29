@@ -4,6 +4,8 @@ CsTracker::Application.routes.draw do
   devise_for :users
   root 'home#index'
 
+  get '/home', to: 'user_home#index', as: 'user_home'
+
   resource :search_query, only: [:get] do
     get 'get/:location_id/(:search_mode)', to: 'search_queries#find_or_create', as: :get
   end
