@@ -46,7 +46,7 @@ class LocationsController < ApplicationController
 
   def fetch_locations location_ids
     return [] unless location_ids || location_ids.empty?
-    Location.select(%i(id city state country))
+    Location
       .find(location_ids.reject(&:nil?))
   end
 end
