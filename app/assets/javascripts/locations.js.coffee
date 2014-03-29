@@ -9,8 +9,7 @@ LocationViewModel = () ->
   self.submitQuery = (query) ->
     return if query == undefined
 
-    search_location = gon.search_location
-    $.getJSON search_location, {q: query}, (data) ->
+    $.getJSON gon.search_location, {q: query}, (data) ->
       self.status(data.status)
 
       locations = self.add_location_urls data.locations
