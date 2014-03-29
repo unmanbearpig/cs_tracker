@@ -1,4 +1,6 @@
 class LocationsController < ApplicationController
+  ALLOWED_JSON_FIELDS = %w(id city state country)
+
   def search
     gon.search_location = search_locations_path(format: :json)
 
@@ -25,7 +27,17 @@ class LocationsController < ApplicationController
     local_search_location_ids = background_task_location_ids(query) + prev_queries_location_ids(query)
     local_search_results = fetch_locations(local_search_location_ids)
 
-    (local_search_results + full_text_search_results(query)).uniq
+    (local_search_results + full_text_search_results(query))
+      .uniq
+      .map { |location| format_location location }
+  end
+
+  def format_location location
+    hash = location.to_h.select { |k, v| ALLOWED_JSON_FIELDS.include? k }
+
+    hash[:search_query_url] = get_search_query_path location_id: location.id
+
+    hash
   end
 
   def full_text_search_results query
