@@ -27,11 +27,12 @@ describe SearchQuery do
     let(:cs_double) { double CouchSurfingClient::CouchSurfing, search: cs_query_double }
 
     it 'searches couchsurfing' do
-      cs_query_double.should_receive(:where).once
-        .with( {
-                 'location' => search_query.location.to_h,
-                 'search_mode' => search_query.search_mode
-               } )
+      cs_query_double.should_receive(:location).once
+        .with(search_query.location.to_h)
+        .and_return(cs_query_double)
+
+      cs_query_double.should_receive(:search_mode).once
+        .with(search_query.search_mode)
         .and_return(cs_query_double)
 
       cs_query_double

@@ -49,9 +49,8 @@ describe SearchItem do
         expect(create_search_item).to be_nil
       end
 
-      it 'returns nil if profile_id is missing' do
-        expect(item_without_profile_id)
-          .to be_nil
+      it 'raises exception if profile_id is missing' do
+        expect {item_without_profile_id}.to raise_error
       end
 
     end
