@@ -22,4 +22,9 @@ class SearchItem < ActiveRecord::Base
     item.search_result = search_result
     item.save ? item : nil
   end
+
+  def to_h
+    data.to_h
+  end
+
 end

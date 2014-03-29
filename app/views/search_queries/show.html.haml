@@ -1,16 +1,30 @@
 = content_for :title do
-  = "#{@location.city} #{humanized_search_mode}"
+  = "#{@search_query.location.city} #{humanized_search_mode}"
 = content_for :content do
   %h1
-    = "#{@location.city} #{humanized_search_mode}"
-    %small= @status.to_s
+    = "#{@search_query.location.city} #{humanized_search_mode}"
+    %small(data-bind="text: status")
 
   %table.no-borders.search-items-table
-    %tbody
-      - if @search_items.nil? || @search_items.empty?
-        no items
-      - else
-        = render partial: 'search_item', collection: @search_items
+    %tbody(data-bind="foreach: search_items")
+      %tr.search-item
+        %td.search-item-thumbnail
+          %a.th
+            %img.profile-pic(data-bind="attr: {src: profile_pic}")
+        %td
+          .profile-description
+            %h4
+              %a.full-name(data-bind="text: name")
+              %small
+                %span.country(data-bind="text: lives_in")
+            .occupation(data-bind="text: occupation")
+            .mission(data-bind="text: mission")
+            .about(data-bind="text: about")
+
+      -# - if @search_items.nil? || @search_items.empty?
+      -#   no items
+      -# - else
+      -#  = render partial: 'search_item', collection: @search_items
 
 
 

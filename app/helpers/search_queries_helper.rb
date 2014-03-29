@@ -1,6 +1,6 @@
 module SearchQueriesHelper
   def humanized_search_mode
-    case @search_mode.upcase
+    case @search_query.search_mode.upcase
     when 'H' then 'hosts'
     when 'S' then 'surfers'
     when 'L' then 'locals'

@@ -1,20 +1,23 @@
 require 'sidekiq/web'
 
 CsTracker::Application.routes.draw do
-  # get "search_queries/show/:location_id/:search_mode"
-
   devise_for :users
   root 'home#index'
 
-  get 'search_queries/show/:location_id(/:search_mode)', to: 'search_queries#show', as: :show_search_query
+  resource :search_query, only: [:get] do
+    get 'get/:location_id/(:search_mode)', to: 'search_queries#find_or_create', as: :get
+  end
+
+  resources :search_queries, only: %i(show update_results search_items) do
+    get 'update_results', to: 'search_queries#update_results', as: 'update_results'
+    get 'search_items', to: 'search_queries#search_items', as: 'search_items'
+  end
 
   resource :locations, only: :search do
     get 'search'
   end
 
   mount Sidekiq::Web => '/sidekiq'
-
-  #get "locations/search"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
