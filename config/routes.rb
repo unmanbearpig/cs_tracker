@@ -6,6 +6,8 @@ CsTracker::Application.routes.draw do
 
   get '/home', to: 'user_home#index', as: 'user_home'
 
+  resources :user_search_queries, only: %i(index show new create)
+
   resource :search_query, only: [:get] do
     get 'get/:location_id/(:search_mode)', to: 'search_queries#find_or_create', as: :get
   end
