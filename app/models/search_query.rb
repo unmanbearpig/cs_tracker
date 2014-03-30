@@ -3,8 +3,9 @@ class SearchQuery < ActiveRecord::Base
   has_many :search_results
 
   validates :location_id, uniqueness: { scope: [ :location_id, :search_mode ] }
-
-  before_save :sanitize_search_mode
+  validates :search_mode, presence: true, allow_nil: false,
+                          allow_blank: false, length: {is: 1},
+                          inclusion: %w(S H T L)
 
   def update_results
     if up_to_date?
@@ -58,9 +59,4 @@ class SearchQuery < ActiveRecord::Base
       'search_mode' => search_mode
     }
   end
-
-  def sanitize_search_mode
-    search_mode = self.search_mode.upcase
-  end
-
 end
