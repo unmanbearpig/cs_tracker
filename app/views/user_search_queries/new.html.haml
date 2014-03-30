@@ -1,0 +1,16 @@
+= content_for :content do
+  %h1 Add new watch
+  .new-user-search-query-view
+    %ul.button-group.search-mode-select
+      %li
+        %a.button(data-bind="button_select: search_mode, value: 'S'")
+          Surfers
+      %li
+        %a.button(data-bind="button_select: search_mode, value: 'H'")
+          Hosts
+      %li
+        %a.button(data-bind="button_select: search_mode, value: 'T'")
+          Travelers
+      %li
+        %a.button(data-bind="button_select: search_mode, value: 'L'")
+          Locals
