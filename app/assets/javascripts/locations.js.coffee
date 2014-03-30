@@ -29,4 +29,7 @@ LocationViewModel = () ->
   self
 
 
-ko.applyBindings(new LocationViewModel())
+$('.location-search-view').ready () ->
+  if $('.location-search-view').length > 0
+    console.log 'apply location vm'
+    ko.applyBindings(new LocationViewModel(), $('.location-search-view')[0])

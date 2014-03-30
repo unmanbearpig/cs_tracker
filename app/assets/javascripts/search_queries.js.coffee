@@ -35,4 +35,6 @@ SearchQueryViewModel = () ->
 
   self
 
-ko.applyBindings(new SearchQueryViewModel())
+$('.search-queries-view').ready () ->
+  if $('.search-queries-view').length > 0
+    ko.applyBindings(new SearchQueryViewModel(), $('.search-queries-view')[0])

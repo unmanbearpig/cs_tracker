@@ -2,15 +2,16 @@
   Location search
 
 = content_for :content do
-  %h1 Locations
-  %input.location-text-field(data-bind="value: query, valueUpdate: 'input'")
-  .status(data-bind="text: status")
-  %table
-    %tbody.locations-list(data-bind="foreach: locations")
-      %tr.location
-        %td
-          %h4
-            %a.city-name(data-bind="text: city, attr: {href: search_query_url}")
-            %small
-              %span.state(data-bind="text: state")
-          .country(data-bind="text: country")
+  .location-search-view
+    %h1 Locations
+    %input.location-text-field(data-bind="value: query, valueUpdate: 'input'")
+    .status(data-bind="text: status")
+    %table
+      %tbody.locations-list(data-bind="foreach: locations")
+        %tr.location
+          %td
+            %h4
+              %a.city-name(data-bind="text: city, attr: {href: search_query_url}")
+              %small
+                %span.state(data-bind="text: state")
+            .country(data-bind="text: country")

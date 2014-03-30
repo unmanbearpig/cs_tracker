@@ -15,7 +15,7 @@
 //= require jquery_ujs
 //= require foundation
 //= require knockout
-
+//= require_tree .
 
 $(function(){ $(document).foundation(); });
 
