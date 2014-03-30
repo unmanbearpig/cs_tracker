@@ -1,10 +1,12 @@
 class LocationsController < ApplicationController
-  ALLOWED_JSON_FIELDS = %w(id city state country)
+  ALLOWED_JSON_FIELDS = ['id', 'city', 'state', 'country', :id]
 
   layout 'main'
 
   def search
     gon.search_location = search_locations_path(format: :json)
+    gon.create_search_query_url = search_queries_path
+    gon.search_mode = nil
 
     respond_to do |format|
       format.html
@@ -37,7 +39,7 @@ class LocationsController < ApplicationController
   def format_location location
     hash = location.to_h.select { |k, v| ALLOWED_JSON_FIELDS.include? k }
 
-    hash[:search_query_url] = get_search_query_path location_id: location.id
+    hash[:search_query_url] = 'invalid_url_lol' # get_search_query_path location_id: location.id
 
     hash
   end

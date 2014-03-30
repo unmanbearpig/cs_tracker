@@ -1,0 +1,16 @@
+.location-search-view
+  = form_tag '', id: 'create-search-query-form', 'data-bind' => 'attr: {action: createSearchQueryUrl}', class: 'hide', method: :post do
+    = text_field_tag :location_id, '', 'data-bind' => 'value: selectedLocationId'
+    = text_field_tag :search_mode, '', 'data-bind' => 'value: searchMode'
+
+  %input.location-text-field(data-bind="value: query, valueUpdate: 'input'")
+  .status(data-bind="text: status")
+  %table
+    %tbody.locations-list(data-bind="foreach: locations")
+      %tr.location
+        %td
+          %h4
+            %a.city-name(data-bind="text: city, click: createSearchQuery")
+            %small
+              %span.state(data-bind="text: state")
+          .country(data-bind="text: country")

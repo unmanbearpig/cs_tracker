@@ -20,7 +20,7 @@ class Location < ActiveRecord::Base
   end
 
   def to_h
-    data
+    data.merge id: id
   end
 
   def self.import_hash hash

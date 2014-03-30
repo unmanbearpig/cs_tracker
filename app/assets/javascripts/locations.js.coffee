@@ -4,7 +4,19 @@ LocationViewModel = () ->
   self.locations = ko.observableArray()
   self.status = ko.observable()
 
+  self.createSearchQueryUrl = ko.observable(gon.create_search_query_url)
+  self.searchMode = ko.observable(gon.search_mode)
+  self.selectedLocationId = ko.observable('bla')
+
+
   self.timer = undefined
+
+  self.wrapLocations = (locations) ->
+    $.map locations, (location) ->
+      location.createSearchQuery = () ->
+        self.selectedLocationId(this.id.toString())
+        $('#create-search-query-form').submit()
+      location
 
   self.submitQuery = (query) ->
     return if query == undefined
@@ -12,7 +24,7 @@ LocationViewModel = () ->
     $.getJSON gon.search_location, {q: query}, (data) ->
       self.status(data.status)
 
-      self.locations(data.locations);
+      self.locations(self.wrapLocations(data.locations));
 
       clearTimeout self.timer if self.timer != undefined
 
@@ -25,6 +37,7 @@ LocationViewModel = () ->
   self.update = ko.computed () ->
     query = self.query()
     self.submitQuery(query)
+
 
   self
 

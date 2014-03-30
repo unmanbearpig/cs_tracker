@@ -3,9 +3,11 @@ class SearchQueriesController < ApplicationController
 
   layout 'main'
 
-  def find_or_create
+  def create
     location_id = params[:location_id] || nil
     search_mode = params[:search_mode] || DEFAULT_SEARCH_MODE
+
+    search_mode = DEFAULT_SEARCH_MODE if search_mode.empty?
 
     return render text: 'location is not defined', status: 400 unless location_id
 

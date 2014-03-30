@@ -8,11 +8,7 @@ CsTracker::Application.routes.draw do
 
   resources :user_search_queries, only: %i(index show new create)
 
-  resource :search_query, only: [:get] do
-    get 'get/:location_id/(:search_mode)', to: 'search_queries#find_or_create', as: :get
-  end
-
-  resources :search_queries, only: %i(show update_results search_items) do
+  resources :search_queries, only: %i(show update_results search_items create) do
     get 'update_results', to: 'search_queries#update_results', as: 'update_results'
     get 'search_items', to: 'search_queries#search_items', as: 'search_items'
   end
