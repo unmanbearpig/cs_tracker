@@ -4,8 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :user_search_queries
   has_many :search_queries, through: :user_search_queries
-
 
   def add_search_query location, search_mode
     search_query = SearchQuery.where(location: location, search_mode: search_mode)
