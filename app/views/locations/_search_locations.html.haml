@@ -1,6 +1,8 @@
-%input.location-text-field(data-bind="value: query, valueUpdate: 'input'")
-.status(data-bind="text: status")
-%table
+%label
+  Type in a location
+  %input.location-text-field(type="text" placeholder="A small planet somewhere in the vicinity of Betelgeuse" data-bind="value: query, valueUpdate: 'input'")
+-# .status(data-bind="text: status")
+%table.no-borders.full-width
   %tbody.locations-list(data-bind="foreach: locations")
     %tr.location
       %td
