@@ -1,0 +1,18 @@
+= content_for :content do
+  %h2 You're watching:
+  .search_queries_list
+    - if @search_queries.nil? || @search_queries.empty?
+      are not created yet :(
+    - else
+      %table.no-borders.search-items-table
+        %tbody
+          - @search_queries.each do |search_query|
+            %tr.search_query
+              %td
+                %h3
+                  = link_to search_query.to_s, search_query
+              %td
+                - if search_query.up_to_date?
+                  up to date!
+                - else
+                  haven't been updated in a while

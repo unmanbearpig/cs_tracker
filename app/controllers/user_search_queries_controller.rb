@@ -5,16 +5,22 @@ class UserSearchQueriesController < ApplicationController
 
   def index
     return redirect_to new_user_search_query_path if search_queries.empty?
+
+    @search_queries = search_queries
   end
 
   def show
   end
 
   def new
+    gon.search_location = search_locations_path(format: :json)
   end
 
   def create
-    search_query = SearchQuery.where(search_query_params).first_or_create
+    search_query = SearchQuery
+      .where({location_id: params[:location_id], search_mode: params[:search_mode]})
+      .first_or_create
+
     unless search_query
       flash.now[:error] = 'Could not create a watch'
       return redirect_to action: :new
@@ -27,10 +33,5 @@ class UserSearchQueriesController < ApplicationController
 
   def search_queries
     current_user.search_queries
-  end
-
-  def search_query_params
-    params.require(:location_id)
-    params.require(:search_mode)
   end
 end

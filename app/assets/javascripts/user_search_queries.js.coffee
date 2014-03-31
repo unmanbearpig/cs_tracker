@@ -6,9 +6,12 @@ ko.bindingHandlers.button_select = {
       value(new_value)
   ,
   update: (element, valueAccessor, allBindings, viewModel, bindingContext) ->
-    new_value = allBindings.get 'value'
+    element_value = allBindings.get 'value'
     value = valueAccessor()
-    if value() == new_value
+
+    $('#create-user-search-query-form #search_mode').attr 'value', value()
+
+    if value() == element_value
       $(element).addClass 'success'
     else
       $(element).removeClass 'success'
@@ -28,3 +31,7 @@ NewUserSearchQueryViewModel = () ->
 $('.new-user-search-query-view').ready () ->
   if $('.new-user-search-query-view').length > 0
     ko.applyBindings(new NewUserSearchQueryViewModel(), $('.new-user-search-query-view')[0])
+
+    window.bindLocationSearchView '.new-watch-location-search', (location) ->
+      $('#create-user-search-query-form #location_id').attr 'value', location.id
+      $('#create-user-search-query-form').submit()

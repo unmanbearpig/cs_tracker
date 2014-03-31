@@ -14,3 +14,9 @@
       %li
         %a.button(data-bind="button_select: search_mode, value: 'L'")
           Locals
+
+  = render partial: 'locations/location_select_form',
+  locals: {submit_url: user_search_queries_path, id: 'create-user-search-query-form', fields: {search_mode: ''}}
+
+  .new-watch-location-search
+    = render 'locations/search_locations'
