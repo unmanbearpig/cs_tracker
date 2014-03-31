@@ -4,4 +4,7 @@
       %h1
         %a(href="/") Name
   %section.top-bar-section
-    = render 'menu/sign_in_top_bar_section'
+    %ul.right
+      - if user_signed_in?
+        = render 'menu/signed_in_top_bar_items'
+      = render 'menu/sign_in_top_bar_section'
