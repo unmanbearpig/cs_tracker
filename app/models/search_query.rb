@@ -38,6 +38,10 @@ class SearchQuery < ActiveRecord::Base
       .order(created_at: :desc).first
   end
 
+  def last_updated
+    last_result.created_at
+  end
+
   def up_to_date?
     result = last_result
     return false unless result
