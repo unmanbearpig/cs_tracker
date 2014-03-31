@@ -1,0 +1,4 @@
+= form_tag submit_url, id: id, class: 'hide', method: :post do
+  = text_field_tag :location_id, ''
+  - fields.each do |name, value|
+    = text_field_tag name, value

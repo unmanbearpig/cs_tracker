@@ -5,7 +5,6 @@ class LocationsController < ApplicationController
 
   def search
     gon.search_location = search_locations_path(format: :json)
-    gon.create_search_query_url = search_queries_path
     gon.search_mode = nil
 
     respond_to do |format|

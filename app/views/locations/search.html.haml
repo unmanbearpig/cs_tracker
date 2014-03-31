@@ -3,4 +3,7 @@
 
 = content_for :content do
   %h1 Locations
-  = render 'search_locations'
+  = render partial: 'location_select_form',
+  locals: {submit_url: search_queries_path, id: 'go-to-search-query-form', fields: {search_mode: 'H'}}
+  .location-search-view
+    = render 'search_locations'
