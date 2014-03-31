@@ -18,11 +18,7 @@ class SearchQuery < ActiveRecord::Base
   end
 
   def update_results!
-    status = SearchQueryFetcher.status id
-
-    return status if status == :scheduled || status == :running
-
-    SearchQueryFetcher.enqueue(id).status
+    SearchQueryFetcher.enqueue_if_not id
   end
 
   def job
