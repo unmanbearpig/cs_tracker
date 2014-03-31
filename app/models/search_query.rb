@@ -1,6 +1,7 @@
 class SearchQuery < ActiveRecord::Base
   belongs_to :location
   has_many :search_results
+  has_many :user_search_queries
 
   validates :location_id, uniqueness: { scope: [ :location_id, :search_mode ] }
   validates :search_mode, presence: true, allow_nil: false,
