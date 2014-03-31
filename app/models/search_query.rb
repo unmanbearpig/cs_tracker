@@ -59,4 +59,18 @@ class SearchQuery < ActiveRecord::Base
       'search_mode' => search_mode
     }
   end
+
+  def human_search_mode
+    case search_mode
+    when 'H' then 'hosts'
+    when 'S' then 'surfers'
+    when 'L' then 'locals'
+    when 'T' then 'travelers'
+    else 'unknown'
+    end
+  end
+
+  def to_s
+    "#{location.city} #{human_search_mode}"
+  end
 end

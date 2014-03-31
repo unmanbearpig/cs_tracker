@@ -1,9 +1,9 @@
 = content_for :title do
-  = "#{@search_query.location.city} #{humanized_search_mode}"
+  = "#{@search_query.to_s}"
 = content_for :content do
   .search-queries-view
     %h1
-      = "#{@search_query.location.city} #{humanized_search_mode}"
+      = "#{@search_query.to_s}"
       %small(data-bind="text: status")
 
     %table.no-borders.search-items-table
