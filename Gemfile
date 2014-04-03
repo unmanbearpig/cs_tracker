@@ -40,8 +40,12 @@ end
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-gem 'capistrano', group: :development
-
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
+end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
@@ -76,7 +80,7 @@ gem 'knockoutjs-rails'
 gem 'gon'
 gem 'jquery-turbolinks'
 
-
+gem 'puma'
 
 # for sidekiq ui
 gem 'sinatra', '>= 1.3.0', :require => nil
