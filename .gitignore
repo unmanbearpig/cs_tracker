@@ -18,3 +18,7 @@
 /config/couchsurfing.yml
 /spec/vcr_cassettes/
 TAGS
+Capfile
+/config/database.yml
+/config/deploy/
+/config/deploy.rb
