@@ -10,6 +10,8 @@ class UserSearchQueriesController < ApplicationController
   end
 
   def show
+    search_query = UserSearchQuery.find(params[:id]).search_query
+    redirect_to search_query
   end
 
   def new

@@ -18,9 +18,18 @@
                 %a.full-name(data-bind="text: name")
                 %small
                   %span.country(data-bind="text: lives_in")
-              .occupation(data-bind="text: occupation")
-              .mission(data-bind="text: mission")
-              .about(data-bind="text: about")
+              .created_at
+                First appeared at:
+              %span.created_at_time(data-bind="text: created_at")
+
+              %p
+                .occupation
+                  Occupation:
+                  %span(data-bind="text: occupation")
+                .mission
+                  Mission:
+                  %span(data-bind="text: mission")
+                %blockquote.about(data-bind="text: about")
 
         -# - if @search_items.nil? || @search_items.empty?
         -#   no items

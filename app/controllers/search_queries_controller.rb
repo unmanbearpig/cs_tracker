@@ -50,8 +50,12 @@ class SearchQueriesController < ApplicationController
   private
 
   def format_search_items search_query
-    return [] unless items = search_query.last_items
-    items.map(&:to_h)
+    return [] unless items = search_query.last_result.items_by_first_appearance
+    items.map(&:to_h).map { |item| item[:created_at] = format_time(item[:created_at]); item }
+  end
+
+  def format_time time
+    time.strftime '%R on %e of %B %Y'
   end
 
   def search_query(params)
@@ -60,12 +64,5 @@ class SearchQueriesController < ApplicationController
     return nil unless id = id_str.to_i
 
     SearchQuery.find(id)
-  end
-
-  def search_query_data params
-    @search_query = search_query(params)
-
-    @search_items = @search_query.last_items
-    @status = @search_query.update_results
   end
 end
