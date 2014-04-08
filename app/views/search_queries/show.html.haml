@@ -15,7 +15,7 @@
           %td
             .profile-description
               %h4
-                %a.full-name(data-bind="text: name")
+                %a.full-name(data-bind="text: name, attr: {href: href}")
                 %small
                   %span.country(data-bind="text: lives_in")
               .created_at

@@ -1,5 +1,6 @@
 class SearchQueriesController < ApplicationController
   DEFAULT_SEARCH_MODE = 'H'
+  COUCHSURFING_URL = 'https://www.couchsurfing.org'
 
   layout 'main'
 
@@ -51,7 +52,11 @@ class SearchQueriesController < ApplicationController
 
   def format_search_items search_query
     return [] unless items = search_query.last_result.items_by_first_appearance
-    items.map(&:to_h).map { |item| item[:created_at] = format_time(item[:created_at]); item }
+    items.map(&:to_h).map do |item|
+      item[:created_at] = format_time(item[:created_at])
+      item['href'] = COUCHSURFING_URL + item['href']
+      item
+    end
   end
 
   def format_time time
