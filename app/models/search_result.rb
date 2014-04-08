@@ -25,4 +25,15 @@ class SearchResult < ActiveRecord::Base
 
     search_items
   end
+
+  def items_by_first_appearance
+    profile_ids = search_items.pluck(:profile_id)
+    items = SearchItem
+      .select('distinct on (profile_id) *')
+      .where('profile_id in (?)', profile_ids)
+      .order(profile_id: :desc, created_at: :asc)
+      .to_a
+      .sort { |item1, item2| item2.created_at <=> item1.created_at }
+  end
+
 end
