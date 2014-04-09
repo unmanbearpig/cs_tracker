@@ -28,7 +28,7 @@ describe SearchQuery do
 
     it 'searches couchsurfing' do
       cs_query_double.should_receive(:location).once
-        .with(search_query.location.to_h)
+        .with(search_query.location.data)
         .and_return(cs_query_double)
 
       cs_query_double.should_receive(:search_mode).once
