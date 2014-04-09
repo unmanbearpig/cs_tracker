@@ -16,6 +16,6 @@ describe 'Sign in process' do
     fill_in 'Password confirmation', with: password
     click_button 'Sign up'
 
-    expect(has_link?('Logout')).to be_true
+    expect(has_link?('Sign out')).to be_true
   end
 end
