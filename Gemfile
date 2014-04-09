@@ -66,6 +66,7 @@ group :test do
   gem 'vcr'
   gem 'capybara'
   gem 'mock_redis'
+  gem 'simplecov', '~> 0.7.1', require: false
 end
 
 gem 'couchsurfing_client', git: 'https://github.com/unmanbearpig/couchsurfing_client'
