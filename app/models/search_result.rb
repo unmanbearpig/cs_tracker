@@ -35,5 +35,4 @@ class SearchResult < ActiveRecord::Base
       .to_a
       .sort { |item1, item2| item2.created_at <=> item1.created_at }
   end
-
 end

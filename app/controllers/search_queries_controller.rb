@@ -1,6 +1,7 @@
 class SearchQueriesController < ApplicationController
+  include SearchQueriesModule
+
   DEFAULT_SEARCH_MODE = 'H'
-  COUCHSURFING_URL = 'https://www.couchsurfing.org'
 
   layout 'main'
 
@@ -26,7 +27,7 @@ class SearchQueriesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        @search_query = search_query params
+        @search_query = search_query
         return render_404 unless @search_query
 
         gon.update_results_url = search_query_update_results_path @search_query
@@ -36,34 +37,25 @@ class SearchQueriesController < ApplicationController
   end
 
   def update_results
-
     respond_to do |format|
-      format.json { render json: search_query(params).update_results }
+      format.json { render json: search_query.update_results }
     end
   end
 
   def search_items
     respond_to do |format|
-      format.json { render json: format_search_items(search_query(params)) }
+      format.json { render json: formatted_search_query_items(search_query) }
     end
   end
 
   private
 
-  def format_search_items search_query
+  def formatted_search_query_items search_query
     return [] unless items = search_query.last_result.items_by_first_appearance
-    items.map(&:to_h).map do |item|
-      item[:created_at] = format_time(item[:created_at])
-      item['href'] = COUCHSURFING_URL + item['href']
-      item
-    end
+    format_search_items items
   end
 
-  def format_time time
-    time.strftime '%R on %e of %B %Y'
-  end
-
-  def search_query(params)
+  def search_query
     return nil unless params.key?('id') || params.key?('search_query_id')
     id_str = params['id'] || params['search_query_id']
     return nil unless id = id_str.to_i
