@@ -43,4 +43,9 @@ class SearchResult < ActiveRecord::Base
         .sort { |item1, item2| item2.created_at <=> item1.created_at }
     end
   end
+
+  def warm_up_cache
+    items_by_first_appearance
+    true
+  end
 end

@@ -19,6 +19,8 @@ class SearchQueryFetcher < BackgroundJobWorker
     fail "Could not create search result" unless search_result
     items = search_result.fetch cs
 
+    search_result.warm_up_cache
+
     job.push_result search_result.id
   end
 
