@@ -1,4 +1,6 @@
 class SearchResult < ActiveRecord::Base
+  include ModelCache
+
   belongs_to :search_query
   has_many :search_items
 
@@ -27,14 +29,18 @@ class SearchResult < ActiveRecord::Base
   end
 
   def items_by_first_appearance
-    profile_ids = search_items.pluck(:profile_id)
-    items = SearchItem
-      .select('distinct on (search_items.profile_id) *')
-      .where('profile_id in (?)', profile_ids)
-      .order(profile_id: :desc, created_at: :asc)
-      .joins(:search_result)
-      .where(search_results: {search_query_id: search_query_id})
-      .to_a
-      .sort { |item1, item2| item2.created_at <=> item1.created_at }
+    cache_id = "#{id}_items_by_first_appearance"
+
+    cached_query cache_id, SearchItem do
+      profile_ids = search_items.pluck(:profile_id)
+      items = SearchItem
+        .select('distinct on (search_items.profile_id) search_items.*')
+        .where('profile_id in (?)', profile_ids)
+        .order(profile_id: :desc, created_at: :asc)
+        .joins(:search_result)
+        .where(search_results: {search_query_id: search_query_id})
+        .to_a
+        .sort { |item1, item2| item2.created_at <=> item1.created_at }
+    end
   end
 end
