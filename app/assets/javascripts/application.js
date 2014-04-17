@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require foundation
 //= require knockout
+//= require moment.min
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
