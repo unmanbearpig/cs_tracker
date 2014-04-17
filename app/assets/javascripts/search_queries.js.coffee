@@ -2,6 +2,7 @@ SearchQueryViewModel = () ->
   self = this
   self.search_items = ko.observable()
   self.status = ko.observable()
+  self.last_updated_at = ko.observable()
 
   self.update_timer = undefined
 
@@ -10,21 +11,28 @@ SearchQueryViewModel = () ->
 
     if self.status() == 'up_to_date'
       console.log 'up_to_date'
-      self.fetch_search_items()
+      self.fetch_search_results()
     else
       self.update_timer = setTimeout () ->
         self.fetch_status () ->
           self.update_search_items()
       , 1000
 
-  self.fetch_search_items = () ->
-    $.getJSON gon.search_items_url, (search_items) ->
-      self.search_items(search_items)
+  self.fetch_search_results = () ->
+    $.getJSON gon.search_items_url, (search_results) ->
+      self.search_items(search_results.search_items)
+      self.last_updated_at(new Date(search_results.last_updated_at))
 
   self.fetch_status = (callback) ->
     $.getJSON gon.update_results_url, (status) ->
       self.status(status)
       callback() if callback
+
+  self.formatted_status = ko.computed () ->
+    if self.status() == 'up_to_date'
+      'updated ' + format_date(self.last_updated_at())
+    else
+      self.status()
 
   self.update_status = ko.computed () ->
     self.fetch_status()
@@ -32,8 +40,12 @@ SearchQueryViewModel = () ->
   self.initialize = ko.computed () ->
     self.update_search_items()
 
+  format_date = (date) ->
+    moment(date).fromNow()
+
 
   self
+
 
 $('.search-queries-view').ready () ->
   if $('.search-queries-view').length > 0

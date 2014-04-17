@@ -44,7 +44,7 @@ class SearchQueriesController < ApplicationController
 
   def search_items
     respond_to do |format|
-      format.json { render json: formatted_search_query_items(search_query) }
+      format.json { render json: { search_items: formatted_search_query_items(search_query), last_updated_at: search_query.last_result.created_at } }
     end
   end
 

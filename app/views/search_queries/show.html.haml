@@ -4,7 +4,7 @@
   .search-queries-view
     %h1
       = "#{@search_query.to_s}"
-      %small(data-bind="text: status")
+      %small(data-bind="text: formatted_status")
 
     %table.no-borders.search-items-table
       %tbody(data-bind="foreach: search_items")
