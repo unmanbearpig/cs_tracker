@@ -5,7 +5,7 @@ class SearchQueryUpdater
 
   def perform
     search_queries.each do |search_query|
-      SearchQueryFetcher.enqueue_if_not search_query.id
+      search_query.update_results
     end
   end
 
