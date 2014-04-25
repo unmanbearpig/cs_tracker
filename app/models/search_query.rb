@@ -10,7 +10,7 @@ class SearchQuery < ActiveRecord::Base
 
   def update_results
     if up_to_date?
-      return :up_to_date if job.completed?
+      return :up_to_date
       # return job.status unless job.failed?
     end
 
