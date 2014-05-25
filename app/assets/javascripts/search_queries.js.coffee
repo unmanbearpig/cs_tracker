@@ -20,7 +20,7 @@ SearchQueryViewModel = () ->
 
   self.fetch_search_results = () ->
     $.getJSON gon.search_items_url, (search_results) ->
-      self.search_items(search_results.search_items)
+      self.search_items(search_results.search_items.map(format_search_item))
       self.last_updated_at(new Date(search_results.last_updated_at))
 
   self.fetch_status = (callback) ->
@@ -43,6 +43,13 @@ SearchQueryViewModel = () ->
   format_date = (date) ->
     moment(date).fromNow()
 
+  format_search_item = (search_item) ->
+    search_item.arrival_date = format_search_item_date(search_item.arrival_date)
+    search_item.departure_date = format_search_item_date(search_item.departure_date)
+    search_item
+
+  format_search_item_date = (date_string) ->
+    moment(date_string, 'YYYY-MM-DD').format('MMMM Do')
 
   self
 

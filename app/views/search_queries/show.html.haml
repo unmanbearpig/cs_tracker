@@ -16,6 +16,11 @@
             .profile-description
               %h4
                 %a.full-name(data-bind="text: name, attr: {href: href}")
+                %span.number_of_surfers(data-bind="if: number_of_surfers > 1")
+                  %span(data-bind="text: '+' + (parseInt(number_of_surfers)-1)")
+                %small
+                  %strong
+                    %span(data-bind="text: gender + ', ' + age + '.'")
                 %small
                   %span.country(data-bind="text: lives_in")
               .created_at
@@ -38,6 +43,6 @@
                     %span.request-dates(data-bind="if: (arrival_date || departure_date)")
                       from
                       %span(data-bind="text: arrival_date")
-                      to
+                      till
                       %span(data-bind="text: departure_date")
                   %blockquote(data-bind="text: open_request")
