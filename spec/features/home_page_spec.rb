@@ -3,12 +3,12 @@ require 'spec_helper'
 describe 'Sign in process' do
   it 'has sign in link' do
     visit '/'
-    expect(has_link?('Login')).to be_true
+    expect(has_link?('Sign in')).to be_true
   end
 
   it 'is able to sign up' do
     visit '/'
-    click_link 'Login'
+    click_link 'Sign in'
     click_link 'Sign up'
     fill_in 'Email', with: Faker::Internet.email
     password = SecureRandom.hex(10)
