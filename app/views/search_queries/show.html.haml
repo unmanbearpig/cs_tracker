@@ -23,15 +23,21 @@
               %span.created_at_time(data-bind="text: created_at")
 
               %p
-                .occupation
-                  Occupation:
+                .occupation(data-bind="if: occupation")
+                  %strong Occupation:
                   %span(data-bind="text: occupation")
-                .mission
-                  Mission:
+                .mission(data-bind="if: mission")
+                  %strong Mission:
                   %span(data-bind="text: mission")
-                %blockquote.about(data-bind="text: about")
-
-        -# - if @search_items.nil? || @search_items.empty?
-        -#   no items
-        -# - else
-        -#  = render partial: 'search_item', collection: @search_items
+                .about(data-bind="if: about")
+                  %strong About:
+                  %blockquote(data-bind="text: about")
+                .open-request(data-bind="if: open_request")
+                  %strong
+                    Open Request
+                    %span.request-dates(data-bind="if: (arrival_date || departure_date)")
+                      from
+                      %span(data-bind="text: arrival_date")
+                      to
+                      %span(data-bind="text: departure_date")
+                  %blockquote(data-bind="text: open_request")
