@@ -51,7 +51,7 @@ class SearchQueriesController < ApplicationController
   private
 
   def formatted_search_query_items search_query
-    return [] unless items = search_query.last_result.items_by_first_appearance
+    return [] unless items = search_query.last_result.cached_items_by_first_appearance
     format_search_items items
   end
 

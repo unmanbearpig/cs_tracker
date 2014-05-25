@@ -28,24 +28,32 @@ class SearchResult < ActiveRecord::Base
     search_items
   end
 
-  def items_by_first_appearance
-    cache_id = "#{id}_items_by_first_appearance"
-
-    cached_query cache_id, SearchItem do
-      profile_ids = search_items.pluck(:profile_id)
-      items = SearchItem
-        .select('distinct on (search_items.profile_id) search_items.*')
-        .where('profile_id in (?)', profile_ids)
-        .order(profile_id: :desc, created_at: :asc)
-        .joins(:search_result)
-        .where(search_results: {search_query_id: search_query_id})
-        .to_a
-        .sort { |item1, item2| item2.created_at <=> item1.created_at }
+  def cached_items_by_first_appearance
+    cached_query cache_id(:items_by_first_appearance), SearchItem do
+      items_by_first_appearance
     end
   end
 
+  def items_by_first_appearance
+    profile_ids = search_items.pluck(:profile_id)
+    items = SearchItem
+      .select('distinct on (search_items.profile_id) search_items.*')
+      .where('profile_id in (?)', profile_ids)
+      .order(profile_id: :desc, created_at: :asc)
+      .joins(:search_result)
+      .where(search_results: {search_query_id: search_query_id})
+      .to_a
+      .sort { |item1, item2| item2.created_at <=> item1.created_at }
+  end
+
   def warm_up_cache
-    items_by_first_appearance
+    cached_items_by_first_appearance
     true
+  end
+
+  private
+
+  def cache_id name
+    "#{self.id}_#{name}"
   end
 end
