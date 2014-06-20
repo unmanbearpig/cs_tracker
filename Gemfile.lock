@@ -119,6 +119,10 @@ GEM
     json (1.8.1)
     knockoutjs-rails (3.1.0.1)
       railties (>= 3.1, < 5)
+    launchy (2.4.2)
+      addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -300,6 +304,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   knockoutjs-rails
+  letter_opener
   mock_redis
   pg
   pg_search
