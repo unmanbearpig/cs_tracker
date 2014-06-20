@@ -1,7 +1,7 @@
 class SearchItem < ActiveRecord::Base
   include Importer
 
-  belongs_to :search_result
+  belongs_to :search_result, touch: true
 
   validates :search_result, presence: true
   validates :item_index, presence: true

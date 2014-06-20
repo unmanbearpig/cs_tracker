@@ -41,17 +41,16 @@ class SearchQueriesController < ApplicationController
       format.json { render json: search_query.update_results }
     end
   end
-
   def search_items
     respond_to do |format|
-      format.json { render json: { search_items: formatted_search_query_items(search_query), last_updated_at: search_query.last_result.created_at } }
+      format.json { render json: { search_items: formatted_search_query_items(search_query), last_updated_at: search_query.cached_last_result.created_at } }
     end
   end
 
   private
 
   def formatted_search_query_items search_query
-    return [] unless items = search_query.last_result.cached_items_by_first_appearance
+    return [] unless items = search_query.cached_last_result.cached_items_by_first_appearance
     format_search_items items
   end
 

@@ -1,7 +1,7 @@
 class SearchResult < ActiveRecord::Base
   include ModelCache
 
-  belongs_to :search_query
+  belongs_to :search_query, touch: true
   has_many :search_items
 
   validates :search_query, presence: true
@@ -29,7 +29,7 @@ class SearchResult < ActiveRecord::Base
   end
 
   def cached_items_by_first_appearance
-    cached_query cache_id(:items_by_first_appearance), SearchItem do
+    Rails.cache.fetch [self, :items_by_first_appearance] do
       items_by_first_appearance
     end
   end
@@ -49,11 +49,5 @@ class SearchResult < ActiveRecord::Base
   def warm_up_cache
     cached_items_by_first_appearance
     true
-  end
-
-  private
-
-  def cache_id name
-    "#{self.id}_#{name}"
   end
 end

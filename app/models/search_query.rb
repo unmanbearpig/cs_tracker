@@ -25,9 +25,22 @@ class SearchQuery < ActiveRecord::Base
     SearchQueryFetcher.job id
   end
 
+
+  def cached_last_items
+    Rails.cache.fetch [self, 'last_items'] do
+      last_items
+    end
+  end
+
   def last_items
     return nil unless last_result
-    last_result.search_items
+    cached_last_result.search_items
+  end
+
+  def cached_last_result
+    Rails.cache.fetch [self, 'last_result'] do
+      last_result
+    end
   end
 
   def last_result
