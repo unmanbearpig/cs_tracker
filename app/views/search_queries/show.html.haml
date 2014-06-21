@@ -4,45 +4,51 @@
   .search-queries-view
     %h1
       = "#{@search_query.to_s}"
-      %small(data-bind="text: formatted_status")
+      %small= "(#{@search_items.count} of them) #{updated_time_ago(@last_update)}"
 
     %table.no-borders.search-items-table
-      %tbody(data-bind="foreach: search_items")
-        %tr.search-item
-          %td.search-item-thumbnail
-            %a.th
-              %img.profile-pic(data-bind="attr: {src: profile_pic}")
-          %td
-            .profile-description
-              %h4
-                %a.full-name(data-bind="text: name, attr: {href: href}")
-                %span.number_of_surfers(data-bind="if: number_of_surfers > 1")
-                  %span(data-bind="text: '+' + (parseInt(number_of_surfers)-1)")
-                %small
-                  %strong
-                    %span(data-bind="text: gender + ', ' + age + '.'")
-                %small
-                  %span.country(data-bind="text: lives_in")
-              .created_at
-                First appeared at:
-              %span.created_at_time(data-bind="text: created_at")
+      %tbody
+        - @search_items.each do |search_item|
+          %tr.search-item
+            %td.search-item-thumbnail
+              %a.th
+                %img.profile-pic{src: search_item.profile_pic}
+            %td
+              .profile-description
+                %h4
+                  %a.full-name{href: search_item.href}= search_item.name
+                  - if search_item.number_of_surfers > 1
+                    %span.number_of_surfers= "+#{search_item.number_of_surfers-1}"
+                  %small
+                    %strong
+                      %span= "#{search_item.gender}, #{search_item.age}."
+                  %small
+                    %span.country= search_item.lives_in
+                .created_at
+                  First appeared at:
+                %span.created_at_time= search_item.created_at # todo: humanize
 
-              %p
-                .occupation(data-bind="if: occupation")
-                  %strong Occupation:
-                  %span(data-bind="text: occupation")
-                .mission(data-bind="if: mission")
-                  %strong Mission:
-                  %span(data-bind="text: mission")
-                .about(data-bind="if: about")
-                  %strong About:
-                  %blockquote(data-bind="text: about")
-                .open-request(data-bind="if: open_request")
-                  %strong
-                    Open Request
-                    %span.request-dates(data-bind="if: (arrival_date || departure_date)")
-                      from
-                      %span(data-bind="text: arrival_date")
-                      till
-                      %span(data-bind="text: departure_date")
-                  %blockquote(data-bind="text: open_request")
+                %p
+                  - if search_item.occupation
+                    .occupation
+                      %strong Occupation:
+                      %span= search_item.occupation
+                  - if search_item.mission
+                    .mission
+                      %strong Mission:
+                      %span= search_item.mission
+                  - if search_item.about
+                    .about
+                      %strong About:
+                      %blockquote= search_item.about
+                  - if search_item.open_request
+                    .open-request
+                      %strong
+                        Open Request
+                        - if search_item.arrival_date || search_item.departure_date
+                          %span.request-dates
+                            from
+                            %span= search_item.arrival_date
+                            till
+                            %span= search_item.departure_date
+                      %blockquote= search_item.open_request

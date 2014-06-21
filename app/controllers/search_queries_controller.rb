@@ -30,8 +30,14 @@ class SearchQueriesController < ApplicationController
         @search_query = search_query
         return render_404 unless @search_query
 
-        gon.update_results_url = search_query_update_results_path @search_query
-        gon.search_items_url = search_query_search_items_path @search_query
+
+        if last_result = @search_query.cached_last_result
+          @search_items = last_result.cached_items_by_first_appearance
+          @last_update = last_result.created_at
+        else
+          @search_items = []
+          @last_update = nil
+        end
       end
     end
   end
@@ -41,6 +47,7 @@ class SearchQueriesController < ApplicationController
       format.json { render json: search_query.update_results }
     end
   end
+
   def search_items
     respond_to do |format|
       format.json { render json: { search_items: formatted_search_query_items(search_query), last_updated_at: search_query.cached_last_result.created_at } }
