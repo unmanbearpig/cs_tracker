@@ -32,4 +32,7 @@ class SearchItem < ActiveRecord::Base
     {created_at: created_at}.merge(data.to_h)
   end
 
+  def url
+    'https://www.couchsurfing.org' + href
+  end
 end

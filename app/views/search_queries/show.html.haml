@@ -16,7 +16,7 @@
             %td
               .profile-description
                 %h4
-                  %a.full-name{href: search_item.href}= search_item.name
+                  %a.full-name{href: search_item.url}= search_item.name
                   - if search_item.number_of_surfers > 1
                     %span.number_of_surfers= "+#{search_item.number_of_surfers-1}"
                   %small

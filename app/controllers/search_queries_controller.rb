@@ -30,7 +30,6 @@ class SearchQueriesController < ApplicationController
         @search_query = search_query
         return render_404 unless @search_query
 
-
         if last_result = @search_query.cached_last_result
           @search_items = last_result.cached_items_by_first_appearance
           @last_update = last_result.created_at
