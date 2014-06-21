@@ -4,38 +4,4 @@
       %img.profile-pic{src: search_item.profile_pic}
   %td
     .profile-description
-      %h4
-        %a.full-name{href: search_item.url}= search_item.name
-        - if search_item.number_of_surfers > 1
-          %span.number_of_surfers= "+#{search_item.number_of_surfers-1}"
-        %small
-          %strong
-            %span= "#{search_item.gender}, #{search_item.age}."
-        %small
-          %span.country= search_item.lives_in
-      .created_at
-        %span= "First appeared on #{format_date(search_item.created_at, true)}"
-      %p
-        - if search_item.occupation
-          .occupation
-            %strong Occupation:
-            %span= search_item.occupation
-        - if search_item.mission
-          .mission
-            %strong Mission:
-            %span= search_item.mission
-        - if search_item.about
-          .about
-            %strong About:
-            %blockquote= search_item.about
-        - if search_item.open_request
-          .open-request
-            %strong
-              Open Request
-              - if search_item.arrival_date || search_item.departure_date
-                %span.request-dates
-                  from
-                  %span= format_date(search_item.arrival_date)
-                  till
-                  %span= format_date(search_item.departure_date)
-            %blockquote= search_item.open_request
+      = render partial: 'search_items/search_item_description', locals: {search_item: search_item}
