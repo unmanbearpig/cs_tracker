@@ -25,9 +25,7 @@
                   %small
                     %span.country= search_item.lives_in
                 .created_at
-                  First appeared at:
-                %span.created_at_time= search_item.created_at # todo: humanize
-
+                  %span= "First appeared on #{format_date(search_item.created_at, true)}"
                 %p
                   - if search_item.occupation
                     .occupation
@@ -48,7 +46,7 @@
                         - if search_item.arrival_date || search_item.departure_date
                           %span.request-dates
                             from
-                            %span= search_item.arrival_date
+                            %span= format_date(search_item.arrival_date)
                             till
-                            %span= search_item.departure_date
+                            %span= format_date(search_item.departure_date)
                       %blockquote= search_item.open_request
