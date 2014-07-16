@@ -1,9 +1,11 @@
 class CouchSurfing
   CONFIG_PATH = 'config/couchsurfing.yml'
 
-  def self.instance
+  def self.instance logger = Rails.logger
     # TODO: cache cookie somewhere so we don't have to sign in all the time
     cs = CouchSurfingClient::CouchSurfing.new(credentials['username'], credentials['password'])
+    cs.logger = logger
+
     cs.sign_in
     cs
   end

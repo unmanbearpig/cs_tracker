@@ -29,6 +29,6 @@ class SearchQueryFetcher < BackgroundJobWorker
   private
 
   def cs
-    @cs ||= CouchSurfing.instance
+    @cs ||= CouchSurfing.instance logger
   end
 end
