@@ -29,7 +29,14 @@ class SearchResult < ActiveRecord::Base
   end
 
   def cached_items_by_first_appearance
-    Rails.cache.fetch [self, :items_by_first_appearance] do
+    cache_key = [self, :items_by_first_appearance]
+    if Rails.cache.exist? cache_key
+      Rails.logger.info "SearchResult[#{id}]SQ[#{search_query_id}] fetching from cache"
+    else
+      Rails.logger.warn "SearchResult[#{id}]SQ[#{search_query_id}] is not in cache"
+    end
+
+    Rails.cache.fetch cache_key do
       items_by_first_appearance
     end
   end
