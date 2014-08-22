@@ -56,6 +56,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'letter_opener'
 end
 
 group :test do
@@ -72,6 +73,8 @@ end
 
 gem 'couchsurfing_client', git: 'https://github.com/unmanbearpig/couchsurfing_client'
 
+gem 'dalli' # memcached
+
 gem 'devise'
 gem 'haml'
 gem 'foundation-rails'
@@ -84,7 +87,7 @@ gem 'jquery-turbolinks'
 
 gem 'puma'
 
-gem 'letter_opener'
+
 
 # for sidekiq ui
 gem 'sinatra', '>= 1.3.0', :require => nil
