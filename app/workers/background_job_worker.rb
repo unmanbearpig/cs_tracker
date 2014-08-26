@@ -5,6 +5,15 @@ class BackgroundJobWorker
 
   sidekiq_options retry: 4
 
+  def self.enqueue_if_not key
+    status = status key
+
+    return status if status == :scheduled || status == :running
+
+    enqueue(key).status
+  end
+
+
   def self.enqueue key, *args
     BackgroundJob.enqueue self, key, *args
   end
