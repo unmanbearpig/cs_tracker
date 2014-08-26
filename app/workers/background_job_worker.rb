@@ -1,4 +1,4 @@
-nclass BackgroundJobWorker
+class BackgroundJobWorker
   include Sidekiq::Worker
 
   attr_reader :key
