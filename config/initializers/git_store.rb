@@ -1,0 +1,1 @@
+GIT_STORE_REPOSITORY_PATH = 'data_repo'

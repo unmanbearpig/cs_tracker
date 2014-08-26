@@ -1,4 +1,4 @@
-class BackgroundJobWorker
+nclass BackgroundJobWorker
   include Sidekiq::Worker
 
   attr_reader :key
@@ -12,7 +12,6 @@ class BackgroundJobWorker
 
     enqueue(key).status
   end
-
 
   def self.enqueue key, *args
     BackgroundJob.enqueue self, key, *args

@@ -96,3 +96,5 @@ gem 'whenever', require: nil
 
 gem 'rack-mini-profiler', require: false
 gem 'flamegraph'
+
+gem 'git_store', git: 'https://github.com/unmanbearpig/git_store.git'

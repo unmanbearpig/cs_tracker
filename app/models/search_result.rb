@@ -57,4 +57,12 @@ class SearchResult < ActiveRecord::Base
     cached_items_by_first_appearance
     true
   end
+
+  def to_a
+    search_items.map(&:to_h)
+  end
+
+  def to_h
+    {search_query_id: search_query_id, search_items: to_a}
+  end
 end
