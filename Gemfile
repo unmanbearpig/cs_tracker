@@ -93,3 +93,6 @@ gem 'puma'
 gem 'sinatra', '>= 1.3.0', :require => nil
 
 gem 'whenever', require: nil
+
+gem 'rack-mini-profiler', require: false
+gem 'flamegraph'
