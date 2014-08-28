@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/unmanbearpig/git_store.git
-  revision: ec6a30b450135782653ecca5182f51bb95f84afb
+  revision: 2dc3eb6f991707b7aa37b80fa5f38abcafe98559
   specs:
     git_store (0.0.1)
       rugged (>= 0.21.0)
