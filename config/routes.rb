@@ -6,9 +6,9 @@ CsTracker::Application.routes.draw do
 
   get '/home', to: 'user_home#index', as: 'user_home'
 
-  resources :user_search_queries, only: %i(index show new create)
+  resources :user_search_queries, only: %w(index show new create).map(&:to_sym)
 
-  resources :search_queries, only: %i(show update_results search_items create) do
+  resources :search_queries, only: %w(show update_results search_items create).map(&:to_sym) do
     get 'update_results', to: 'search_queries#update_results', as: 'update_results'
     get 'search_items', to: 'search_queries#search_items', as: 'search_items'
   end
