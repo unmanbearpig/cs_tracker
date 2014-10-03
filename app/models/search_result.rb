@@ -1,3 +1,5 @@
+require 'hash_diff'
+
 class SearchResult < ActiveRecord::Base
   include ModelCache
 
@@ -64,5 +66,13 @@ class SearchResult < ActiveRecord::Base
 
   def to_h
     {search_query_id: search_query_id, search_items: to_a}
+  end
+
+  def self.diff_sr(offset, options = {})
+    HashDiff.test(*(SearchQuery.find(1).search_results.order(created_at: :desc).offset(offset).take(2).to_a.reverse), options).to_h.reject { |k, v| v == {} }
+  end
+
+  def self.diff_all(options = {})
+    (0..SearchQuery.first.search_results.count-2).reduce([]) { |c, a| c << diff_sr(a, options); c }
   end
 end
