@@ -3,9 +3,13 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
 
-gem 'pg'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+if RUBY_PLATFORM == 'java'
+  gem 'activerecord-jdbcpostgresql-adapter'
+  gem 'activerecord-jdbcsqlite3-adapter'
+else
+  gem 'pg'
+  gem 'sqlite3'
+end
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
@@ -54,8 +58,9 @@ end
 group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'guard-rspec', require: false
+  # gem 'better_errors'
+  # gem 'binding_of_caller'
   gem 'letter_opener'
 end
 
@@ -95,6 +100,13 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'whenever', require: nil
 
 gem 'rack-mini-profiler', require: false
-gem 'flamegraph'
+gem 'flamegraph' unless RUBY_PLATFORM == 'java'
 
-gem 'git_store', git: 'https://github.com/unmanbearpig/git_store.git'
+# gem 'git_store', git: 'https://github.com/unmanbearpig/git_store.git'
+
+# neo4j
+# gem "neo4j-community", '~> 2.1.1' # neo4j-core bug? - it fails to require this gem for some reason
+# gem 'neo4j-core', git: 'https://github.com/neo4jrb/neo4j-core.git'
+# gem 'neo4j', git: 'https://github.com/neo4jrb/neo4j.git'
+
+# gem 'neography'
