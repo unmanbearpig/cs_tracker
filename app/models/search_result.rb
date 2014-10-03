@@ -69,31 +69,36 @@ class SearchResult < ActiveRecord::Base
   end
 
   def search_items_hash
+    self.class.search_items_hash.search_items
+  end
+
+  def self.search_items_hash search_items
     search_items
       .reduce({}) { |c, i| c[i.profile_id] = i.to_h; c }
   end
 
-  def diff(original_search_result, options = {})
-    HashDiff.diff(original_search_result.search_items_hash, search_items_hash, options)
+  def self.diff_search_items_hashes original_search_items_hash, new_search_items_hash, options = {}
+    HashDiff.diff(original_search_items_hash, new_search_items_hash, options)
       .to_h.reject { |k, v| v == {} }
   end
 
-  def self.diff_all(search_query, batch_size, page, options = {})
-    search_results = search_query.search_results
+  def self.diff_batch(search_query, batch_size, page, options = {})
+    search_result_ids = search_query.search_results
       .order(created_at: :asc)
       .offset(page * batch_size)
       .limit(batch_size)
+      .pluck(:id)
 
-    search_results
-      .reduce({last_sr: search_results.first, diffs: []}) do |c, sr|
+    diffs = []
 
-      c[:diffs].push(sr.diff(c[:last_sr], options))
-      c[:last_sr] = sr
-      c
-    end[:diffs]
+    previous_search_items_hash = search_items_hash(SearchItem.where(search_result_id: search_result_ids.shift))
+    diffs << previous_search_items_hash
 
+    while(search_result_id = search_result_ids.shift)
+      search_items_hash(SearchItem.where(search_result_id: search_result_id))
+      diffs << diff_search_items_hashes(previous_search_items_hash, search_items_hash(SearchItem.where(search_result_id: search_result_id)), options)
+    end
 
-
-    # (0..search_query.search_results.count-2).reduce([]) { |c, a| c << diff_sr(search_query, a, options); c }
+    diffs
   end
 end
