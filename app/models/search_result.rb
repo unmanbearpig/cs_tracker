@@ -82,7 +82,7 @@ class SearchResult < ActiveRecord::Base
     search_results = search_query.search_results
       .order(created_at: :asc)
       .offset(page * batch_size)
-      .take(batch_size)
+      .limit(batch_size)
 
     search_results
       .reduce({last_sr: search_results.first, diffs: []}) do |c, sr|
