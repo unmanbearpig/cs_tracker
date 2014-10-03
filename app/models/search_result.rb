@@ -68,12 +68,32 @@ class SearchResult < ActiveRecord::Base
     {search_query_id: search_query_id, search_items: to_a}
   end
 
-  def self.diff_sr(search_query, offset, options = {})
-    HashDiff.test(*(search_query.search_results.order(created_at: :desc).offset(offset).take(2).to_a.reverse), options)
+  def search_items_hash
+    search_items
+      .reduce({}) { |c, i| c[i.profile_id] = i.to_h; c }
+  end
+
+  def diff(original_search_result, options = {})
+    HashDiff.diff(original_search_result.search_items_hash, search_items_hash, options)
       .to_h.reject { |k, v| v == {} }
   end
 
-  def self.diff_all(search_query, options = {})
-    (0..search_query.search_results.count-2).reduce([]) { |c, a| c << diff_sr(search_query, a, options); c }
+  def self.diff_all(search_query, batch_size, page, options = {})
+    search_results = search_query.search_results
+      .order(created_at: :asc)
+      .offset(page * batch_size)
+      .take(batch_size)
+
+    search_results
+      .reduce({last_sr: search_results.first, diffs: []}) do |c, sr|
+
+      c[:diffs].push(sr.diff(c[:last_sr], options))
+      c[:last_sr] = sr
+      c
+    end[:diffs]
+
+
+
+    # (0..search_query.search_results.count-2).reduce([]) { |c, a| c << diff_sr(search_query, a, options); c }
   end
 end
