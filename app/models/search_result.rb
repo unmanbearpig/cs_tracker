@@ -68,11 +68,12 @@ class SearchResult < ActiveRecord::Base
     {search_query_id: search_query_id, search_items: to_a}
   end
 
-  def self.diff_sr(offset, options = {})
-    HashDiff.test(*(SearchQuery.find(1).search_results.order(created_at: :desc).offset(offset).take(2).to_a.reverse), options).to_h.reject { |k, v| v == {} }
+  def self.diff_sr(search_query, offset, options = {})
+    HashDiff.test(*(search_query.search_results.order(created_at: :desc).offset(offset).take(2).to_a.reverse), options)
+      .to_h.reject { |k, v| v == {} }
   end
 
-  def self.diff_all(options = {})
-    (0..SearchQuery.first.search_results.count-2).reduce([]) { |c, a| c << diff_sr(a, options); c }
+  def self.diff_all(search_query, options = {})
+    (0..search_query.search_results.count-2).reduce([]) { |c, a| c << diff_sr(search_query, a, options); c }
   end
 end
