@@ -68,37 +68,26 @@ class SearchResult < ActiveRecord::Base
     {search_query_id: search_query_id, search_items: to_a}
   end
 
+  def diffable_hash
+    result = search_items_hash
+    result[:created_at] = created_at
+    result
+  end
+
   def search_items_hash
-    self.class.search_items_hash.search_items
-  end
+    result = {}
 
-  def self.search_items_hash search_items
-    search_items
-      .reduce({}) { |c, i| c[i.profile_id] = i.to_h; c }
-  end
+    search_items.each do |search_item|
+      si = search_item.clone
+      hash = si.data.to_h
 
-  def self.diff_search_items_hashes original_search_items_hash, new_search_items_hash, options = {}
-    HashDiff.diff(original_search_items_hash, new_search_items_hash, options)
-      .to_h.reject { |k, v| v == {} }
-  end
+      profile_id = hash['profile_id']
 
-  def self.diff_batch(search_query, batch_size, page, options = {})
-    search_result_ids = search_query.search_results
-      .order(created_at: :asc)
-      .offset(page * batch_size)
-      .limit(batch_size)
-      .pluck(:id)
+      hash.delete('profile_id')
 
-    diffs = []
-
-    previous_search_items_hash = search_items_hash(SearchItem.where(search_result_id: search_result_ids.shift))
-    diffs << previous_search_items_hash
-
-    while(search_result_id = search_result_ids.shift)
-      search_items_hash(SearchItem.where(search_result_id: search_result_id))
-      diffs << diff_search_items_hashes(previous_search_items_hash, search_items_hash(SearchItem.where(search_result_id: search_result_id)), options)
+      result[profile_id] = hash
     end
 
-    diffs
+    result
   end
 end

@@ -29,7 +29,7 @@ class SearchItem < ActiveRecord::Base
   end
 
   def to_h
-    {created_at: created_at}.merge(data.to_h)
+    {created_at: created_at}.merge!(data.to_h)
   end
 
   def url

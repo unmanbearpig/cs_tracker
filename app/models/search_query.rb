@@ -1,3 +1,5 @@
+require 'hash_diff'
+
 class SearchQuery < ActiveRecord::Base
   belongs_to :location
   has_many :search_results
@@ -87,4 +89,31 @@ class SearchQuery < ActiveRecord::Base
   def to_s
     "#{location.city} #{human_search_mode}"
   end
+
+  def diff_batch(batch_size, page, options = {})
+    diffs = []
+
+    differ = HashDiffConveyor.new options
+
+    search_results
+      .order(created_at: :asc)
+      .offset(page * batch_size)
+      .limit(batch_size)
+      .includes(:search_items)
+      .each do |search_result|
+
+      diffs << differ.diff(search_result.diffable_hash)
+    end
+
+    diffs
+  end
+
+
+  def diff batch_size = 10, options = {}
+    LazyBufferedIterator.new batch_size, lambda { |batch_size, page|
+      result = diff_batch batch_size, page, options
+      result
+    }
+  end
+
 end

@@ -47,6 +47,7 @@ GEM
     arel (5.0.1.20140414130214)
     bcrypt (3.1.7)
     bcrypt (3.1.7-java)
+    benchmark-ips (1.2.0)
     builder (3.2.2)
     capistrano (3.2.1)
       i18n
@@ -338,6 +339,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   activerecord-jdbcsqlite3-adapter
+  benchmark-ips
   capistrano
   capistrano-bundler
   capistrano-rails

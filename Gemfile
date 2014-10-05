@@ -110,3 +110,4 @@ gem 'flamegraph' unless RUBY_PLATFORM == 'java'
 # gem 'neo4j', git: 'https://github.com/neo4jrb/neo4j.git'
 
 # gem 'neography'
+gem 'benchmark-ips'
