@@ -27,7 +27,7 @@ describe SearchQuery do
     let(:cs_double) { double CouchSurfingClient::CouchSurfing, search: cs_query_double }
 
     it 'searches couchsurfing' do
-      cs_query_double.should_receive(:location).once
+      cs_query_double.expect(:location).once
         .with(search_query.location.data)
         .and_return(cs_query_double)
 
