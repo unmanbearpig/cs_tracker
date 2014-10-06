@@ -19,35 +19,29 @@ describe Location do
 
     it 'returns locations with the word in city' do
       result = Location.search('Shwiskynsynn')
-      expect(result.count).to eq 1
       expect(result.first.city).to eq 'Shwiskynsynn Caucasian'
 
       result = Location.search('Caucasian')
-      expect(result.count).to eq 1
       expect(result.first.city).to eq 'Shwiskynsynn Caucasian'
     end
 
     it 'returns locations with the word in state' do
       result = Location.search('Newraska')
-      expect(result.count).to eq 1
       expect(result.first.state).to eq 'Saint Newraska'
     end
 
     it 'returns locations with the word in country' do
       result = Location.search 'Zombieland'
-      expect(result.count).to eq 1
       expect(result.first.country).to eq 'United States of Zombieland'
     end
 
     it 'searches by multiple fields' do
       result = Location.search 'Townshed, Newraska'
-      expect(result.count).to eq 1
       expect(result.first.city).to eq 'Saint Townshed'
     end
 
     it 'returns more relevant results first' do
       result = Location.search 'Shmoo'
-      expect(result.count).to eq 2
       expect(result.first.city).to eq 'Shmoo'
     end
   end
