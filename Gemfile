@@ -3,10 +3,12 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 
-if RUBY_PLATFORM == 'java'
+platforms :jruby do
   gem 'activerecord-jdbcpostgresql-adapter'
   gem 'activerecord-jdbcsqlite3-adapter'
-else
+end
+
+platforms :mri do
   gem 'pg'
   gem 'sqlite3'
 end
