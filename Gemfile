@@ -8,7 +8,7 @@ platforms :jruby do
   gem 'activerecord-jdbcsqlite3-adapter'
 end
 
-platforms :mri do
+platforms :mri, :rbx do
   gem 'pg'
   gem 'sqlite3'
 end
