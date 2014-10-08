@@ -61,8 +61,10 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
-  # gem 'better_errors'
-  # gem 'binding_of_caller'
+  platforms :mri, :rbx do
+    gem 'better_errors'
+    gem 'binding_of_caller'
+  end
   gem 'letter_opener'
 end
 
@@ -102,7 +104,10 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'whenever', require: nil
 
 gem 'rack-mini-profiler', require: false
-gem 'flamegraph' unless RUBY_PLATFORM == 'java'
+
+platforms :mri, :rbx do
+  gem 'flamegraph'
+end
 
 # gem 'git_store', git: 'https://github.com/unmanbearpig/git_store.git'
 
