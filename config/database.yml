@@ -11,7 +11,7 @@ development:
 
 test:
   adapter: postgresql
-  database: travis_ci_test
+  database: cs_tracker_test
   username: postgres
 
 production:
