@@ -1,8 +1,9 @@
 language: ruby
 rvm:
-  - 2.1.0
-  - 2.0.0
-
+  - 2.1.2
+  - jruby-19mode
+  - jruby-head
+  - rbx-2.2.9
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
 
