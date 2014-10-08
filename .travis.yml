@@ -4,9 +4,13 @@ rvm:
   - jruby-19mode
   - jruby-head
   - rbx-2.2.9
-before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-
 env:
   global:
     secure: jr2kPlj3hLi0X80lb3e9eLPQMQ9Mt2WtKKOfqRa6mHoTskE47E8vTIRTfhDUXhcy3ns9MVEHzljpoR4OKK45aJ2K2ASAxPjtYoH926UZumBpY4x35Ns9EwlR54mvZlwffzQXA6YdozqWH1ehyUCYzjAUXBrt3dIXb56IxqIdBt4=
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rspec spec/
+before_script:
+  - psql -c 'create database cs_tracker' -U postgres
+bundler_args: --binstubs=./bundler_stubs
