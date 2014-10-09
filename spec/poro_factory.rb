@@ -1,4 +1,18 @@
 class PoroFactory
+  module StringifyValues
+    def stringify_values
+      map do |key, value|
+        [key, value]
+      end.reduce({}) do |c, a|
+        key = a.first
+        value = a.second
+
+        c[key] = value.to_s
+        c
+      end
+    end
+  end
+
   def self.location_hash params = {}
     data = {
       'city_id' => Faker::Number.number(7).to_i,
@@ -14,7 +28,10 @@ class PoroFactory
       'country' => Faker::Address.country,
       'region' => Faker::Address.time_zone,
       'type' => 'city'
-    }.merge params
+    }.merge!(params)
+
+    data.extend(StringifyValues)
+    data.stringify_values
   end
 
   def self.gender
@@ -48,6 +65,9 @@ class PoroFactory
         "Spanish"=>"beg",
         "German"=>"beg" },
       :occupation => Faker::Lorem.sentence(3)
-    }.merge params
+    }.merge! params
+
+    data.extend(StringifyValues)
+    data.stringify_values
   end
 end

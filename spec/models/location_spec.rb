@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'couchsurfing'
 
 describe Location do
   def build_cs_location hash = {}
@@ -54,8 +55,12 @@ describe Location do
       context 'single location' do
         attr_reader :new_location
 
-        before do
-          @new_location = Location.import test_hash
+        before :each do
+          puts '## Importing location'
+          vcr do
+            @new_location = Location.import test_hash
+          end
+          pp @new_location
         end
 
         it 'returns new location' do
@@ -116,17 +121,12 @@ describe Location do
   end
 
   describe 'Location#fetch' do
-    let(:cs) { double CouchSurfingClient::CouchSurfing, find_location: build_cs_locations(3) }
+    #attr_reader :results
 
-    let(:results) { Location.fetch cs, 'some city' }
-
-    it 'searches for locations' do
-      expect(cs).to receive(:find_location).with('some city')
-      results
-    end
+    let(:results) { vcr { Location.fetch(CouchSurfing.instance, 'san francisco') } }
 
     it 'returts proper number of results' do
-      expect(results.count).to eq 3
+      expect(results.count).to be > 10
     end
 
     it 'returns instances of Location model' do

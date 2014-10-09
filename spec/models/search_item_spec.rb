@@ -26,7 +26,7 @@ describe SearchItem do
       end
 
       it 'fills data field correctly' do
-        expect(search_item.data).to eq item
+        expect(search_item.data).to eq item.stringify_keys
       end
     end
 

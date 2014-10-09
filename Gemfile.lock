@@ -138,6 +138,10 @@ GEM
       rspec (>= 2.14, < 4.0)
     haml (4.0.5)
       tilt
+    hashie (3.3.1)
+    hashie_rails (0.0.1)
+      hashie (>= 3.0)
+      rails (~> 4.0)
     hike (1.2.3)
     hitimes (1.2.2)
     hitimes (1.2.2-java)
@@ -375,6 +379,8 @@ DEPENDENCIES
   gon
   guard-rspec
   haml
+  hashie
+  hashie_rails
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks

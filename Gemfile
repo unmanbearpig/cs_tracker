@@ -109,6 +109,9 @@ platforms :mri, :rbx do
   gem 'flamegraph'
 end
 
+gem 'hashie'
+gem 'hashie_rails'
+
 # gem 'git_store', git: 'https://github.com/unmanbearpig/git_store.git'
 
 # neo4j

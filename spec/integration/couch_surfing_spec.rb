@@ -5,16 +5,10 @@ describe 'CouchSurfing integration' do
   attr_reader :cs
 
   # before :all so we don't have to sign in before each test
-  before :all do
-    configure_vcr
-
+  before :each do
     vcr do
       @cs = CouchSurfing.instance
     end
-  end
-
-  after :all do
-    DatabaseCleaner.clean_with :truncation
   end
 
   describe 'Location' do
@@ -23,16 +17,12 @@ describe 'CouchSurfing integration' do
 
       let(:expected_id) { '2938224' }
 
-      before :all do
+      before :each do
         @city_name = 'San Francisco'
 
         vcr do
           @results = Location.fetch cs, city_name
         end
-      end
-
-      after :all do
-        DatabaseCleaner.clean_with :truncation
       end
 
       it 'fetches locations from cs' do
@@ -56,7 +46,7 @@ describe 'CouchSurfing integration' do
   describe 'Fetching results' do
     attr_reader :location, :search_query, :search_result
 
-    before :all do
+    before :each do
       vcr do
         @location = Location.fetch(cs, 'San Francisco').first
         @search_query = SearchQuery.create(location: location, search_mode: 'L')
@@ -64,7 +54,7 @@ describe 'CouchSurfing integration' do
       end
     end
 
-    after :all do
+    after :each do
       DatabaseCleaner.clean_with :truncation
     end
 

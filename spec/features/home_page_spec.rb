@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'Sign in process' do
+describe 'Sign in process', type: :feature do
   it 'has sign in link' do
     visit '/'
-    expect(has_link?('Sign in')).to be_true
+    expect(has_link?('Sign in')).to be true
   end
 
   it 'is able to sign up' do
@@ -16,6 +16,6 @@ describe 'Sign in process' do
     fill_in 'Password confirmation', with: password
     click_button 'Sign up'
 
-    expect(has_link?('Sign out')).to be_true
+    expect(has_link?('Sign out')).to be true
   end
 end

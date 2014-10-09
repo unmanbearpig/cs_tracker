@@ -14,7 +14,7 @@ describe SearchQuery do
                         search_mode: search_query.search_mode,
                         location_id: search_query.location_id)
 
-      expect(duplicate.valid?).to be_false
+      expect(duplicate.valid?).to be false
     end
   end
 
@@ -27,11 +27,11 @@ describe SearchQuery do
     let(:cs_double) { double CouchSurfingClient::CouchSurfing, search: cs_query_double }
 
     it 'searches couchsurfing' do
-      cs_query_double.expect(:location).once
+      expect(cs_query_double).to receive(:location).once
         .with(search_query.location.data)
         .and_return(cs_query_double)
 
-      cs_query_double.should_receive(:search_mode).once
+      expect(cs_query_double).to receive(:search_mode).once
         .with(search_query.search_mode)
         .and_return(cs_query_double)
 
