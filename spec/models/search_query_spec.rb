@@ -35,9 +35,7 @@ describe SearchQuery do
         .with(search_query.search_mode)
         .and_return(cs_query_double)
 
-      cs_query_double
-        .should_receive(:get).once
-        .and_return(:search_results)
+      expect(cs_query_double).to receive(:get).once { :search_results }
 
       expect(search_query.search(cs_double)).to eq :search_results
     end
