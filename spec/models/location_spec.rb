@@ -56,11 +56,9 @@ describe Location do
         attr_reader :new_location
 
         before :each do
-          puts '## Importing location'
           vcr do
             @new_location = Location.import test_hash
           end
-          pp @new_location
         end
 
         it 'returns new location' do
