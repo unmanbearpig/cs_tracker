@@ -12,5 +12,5 @@ script:
   - bundle exec rake db:test:prepare
   - bundle exec rspec spec/
 before_script:
-  - psql -c 'create database cs_tracker' -U postgres
+  - psql -c 'create database cs_tracker_test' -U postgres
 bundler_args: --binstubs=./bundler_stubs
