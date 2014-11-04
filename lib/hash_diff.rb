@@ -1,3 +1,10 @@
+require 'pry'
+
+module DiffableHash
+  def diff(other_hash)
+    HashDiff.diff(self, other_hash)
+  end
+end
 
 # TODO: ArrayDiff?
 ## Creazy idea: blame?
@@ -71,8 +78,44 @@ class HashDiff
     HashDiff.new(hash1, hash2, options).diff
   end
 
+  def self.is_kind_of_hashy object
+    object.respond_to?(:[]) && object.respond_to?(:keys) && object.respond_to?(:values)
+  end
+
   def self.patch(hash, diff)
-    raise "not_ implemented. Also, test! It's easy!"
+    return diff unless is_kind_of_hashy(hash) && is_kind_of_hashy(diff)
+
+    validate_patch hash, diff
+
+    result = hash.dup
+
+    diff.keys.each do |k|
+      result[k] = patch(result[k], diff[k]) unless k == :__added__ || k == :__deleted__
+    end
+
+    if diff.has_key? :__deleted__
+      diff[:__deleted__].each do |key|
+        result.delete key
+      end
+    end
+
+    result
+  end
+
+  def self.validate_patch orig, patch
+    if patch.has_key? :__deleted__
+      patch[:__deleted__].each do |key|
+        raise "Deleted key \"#{key}\" doesn't exist in original hash" unless orig.has_key? key
+        raise "Deleted key \"#{key}\" exist in HashPatch" if patch.has_key? key
+      end
+    end
+
+    if patch.has_key? :__added__
+      patch[:__added__].each do |key|
+        raise "Added key \"#{key}\" exists in original hash" if orig.has_key? key
+        raise "Key from __added__ array is missing in patch" unless patch.has_key? key
+      end
+    end
   end
 end
 
