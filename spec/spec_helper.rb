@@ -73,6 +73,12 @@ TEST_ONLINE = ENV['CS_TEST_ONLINE'].downcase == 'true' if ENV.include? 'CS_TEST_
 
 def vcr options = {}, &block
   name = self.class.metadata[:full_description].gsub(/\s+/, '_')
-  options.merge! record: :all if TEST_ONLINE
+
+  if TEST_ONLINE
+    options.merge! record: :all
+  else
+    options.merge! record: :new_episodes
+  end
+
   VCR.use_cassette name, options, &block
 end
