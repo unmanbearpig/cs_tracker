@@ -61,7 +61,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
-  platforms :mri, :rbx do
+  platforms :mri do
     gem 'better_errors'
     gem 'binding_of_caller'
   end
