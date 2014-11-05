@@ -1,5 +1,3 @@
-require 'pry'
-
 module DiffableHash
   def diff(other_hash)
     HashDiff.diff(self, other_hash)
