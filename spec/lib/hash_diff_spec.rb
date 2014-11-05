@@ -12,11 +12,11 @@ describe HashDiff do
     end
 
     it 'adds new keys to __added__ key' do
-      expect(diff[:__added__]).to eq [:new, :new_hash]
+      expect(diff['__added__']).to eq [:new, :new_hash]
     end
 
     it 'adds keys to __deleted__ key' do
-      expect(diff[:__deleted__]).to eq [:old]
+      expect(diff['__deleted__']).to eq [:old]
     end
 
     it 'has different keys' do
@@ -32,7 +32,7 @@ describe HashDiff do
         attr_reader :patched_hash
 
         before :each do
-          @patched_hash = HashDiff.patch hash1, diff
+          @patched_hash = HashDiff.patch! hash1, diff
         end
 
         it "creates modified array from original and hash" do
@@ -44,15 +44,15 @@ describe HashDiff do
         let(:hash) { { a: 1, b: 2 } }
 
         it 'complains if __added__ keys don\'t exist in patch' do
-          patch = { __added__: [:c] }
+          patch = { '__added__' => [:c] }
 
-          expect { HashDiff.patch(hash, patch) }.to raise_exception
+          expect { HashDiff.patch!(hash, patch) }.to raise_exception
         end
 
         it 'complains if __added__ keys exist in original' do
-          patch = { __added__: [:b] }
+          patch = { '__added__' => [:b] }
 
-          expect { HashDiff.patch(hash, patch) }.to raise_exception
+          expect { HashDiff.patch!(hash, patch) }.to raise_exception
         end
 
         it 'complains if new key doesn\'t exist in __added__ array' do
@@ -60,19 +60,19 @@ describe HashDiff do
 
           patch = { new: 35 }
 
-          expect { HashDiff.patch(hash, patch) }.to raise_exception
+          expect { HashDiff.patch!(hash, patch) }.to raise_exception
         end
 
         it 'complains if __deleted__ keys don\'t exist in original' do
-          patch = { __deleted__: [:c] }
+          patch = { '__deleted__' => [:c] }
 
-          expect { HashDiff.patch(hash, patch) }.to raise_exception
+          expect { HashDiff.patch!(hash, patch) }.to raise_exception
         end
 
         it 'complains if __deleted__ keys exists in patch' do
-          patch = { __deleted__: [:b], b: 4 }
+          patch = { '__deleted__' => [:b], b: 4 }
 
-          expect { HashDiff.patch(hash, patch) }.to raise_exception
+          expect { HashDiff.patch!(hash, patch) }.to raise_exception
         end
       end
     end

@@ -1,4 +1,5 @@
-require 'hash_diff'
+# require 'hash_diff'
+require 'mongo_diff_store'
 
 class SearchQuery < ActiveRecord::Base
   belongs_to :location
@@ -7,8 +8,8 @@ class SearchQuery < ActiveRecord::Base
 
   validates :location_id, uniqueness: { scope: [ :location_id, :search_mode ] }
   validates :search_mode, presence: true, allow_nil: false,
-                          allow_blank: false, length: {is: 1},
-                          inclusion: %w(S H T L)
+            allow_blank: false, length: {is: 1},
+            inclusion: %w(S H T L)
 
   def update_results
     if up_to_date?
@@ -114,6 +115,40 @@ class SearchQuery < ActiveRecord::Base
       result = diff_batch batch_size, page, options
       result
     }
+  end
+
+  def export_to_diff_store! diff_store = diff_store, batch_size: 1000
+    diff_store.collection.drop
+
+    diff_store.push_multiple! self.search_results.find_each(batch_size: batch_size)
+      .lazy.map { |sr| sr.diffable_hash }
+  end
+
+  def verify_diff_store! diff_store = diff_store
+    raise 'Unexpected diff store size' unless diff_store.size == self.search_results.size
+
+    debug_diff = ->(first, second){ HashDiff.diff(first, second) }
+
+    diff_store.each_with_index do |store_sr, index|
+      expected = SearchResult.find(store_sr['id']).diffable_hash
+      actual = store_sr.except('created_at', '_id')
+
+      unless actual == expected.except('created_at', '_id')
+        raise "
+Search result ##{index} doesn't match in diff store
+
+exp >> store: #{debug_diff.call expected.except('created_at', '_id'), actual}
+"
+      end
+
+      raise 'Created at date is not equal' unless store_sr['created_at'].compare_with_coercion expected['created_at']
+    end
+
+    true
+  end
+
+  def diff_store
+    md = MongoDiffStore.new 'cs_tracker_collected_data', "search_query_#{id}", safe: false
   end
 
 end

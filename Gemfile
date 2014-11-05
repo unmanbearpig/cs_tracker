@@ -121,3 +121,6 @@ gem 'hashie_rails'
 
 # gem 'neography'
 gem 'benchmark-ips'
+
+gem 'moped'
+# gem 'hashdiff'

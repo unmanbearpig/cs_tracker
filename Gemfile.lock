@@ -54,6 +54,8 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bson (2.3.0)
+    bson (2.3.0-java)
     builder (3.2.2)
     capistrano (3.2.1)
       i18n
@@ -188,6 +190,10 @@ GEM
     mini_portile (0.6.0)
     minitest (5.4.2)
     mock_redis (0.13.2)
+    moped (2.0.1)
+      bson (~> 2.2)
+      connection_pool (~> 2.0)
+      optionable (~> 0.2.0)
     multi_json (1.10.1)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
@@ -198,6 +204,7 @@ GEM
       mini_portile (= 0.6.0)
     nokogiri (1.6.3.1-java)
     ntlm-http (0.1.1)
+    optionable (0.2.0)
     orm_adapter (0.5.0)
     pg (0.17.1)
     pg_search (0.7.8)
@@ -387,6 +394,7 @@ DEPENDENCIES
   knockoutjs-rails
   letter_opener
   mock_redis
+  moped
   pg
   pg_search
   pry-rails

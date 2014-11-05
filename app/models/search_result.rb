@@ -1,4 +1,4 @@
-require 'hash_diff'
+# require 'hash_diff'
 
 class SearchResult < ActiveRecord::Base
   include ModelCache
@@ -46,13 +46,13 @@ class SearchResult < ActiveRecord::Base
   def items_by_first_appearance
     profile_ids = search_items.pluck(:profile_id)
     items = SearchItem
-      .select('distinct on (search_items.profile_id) search_items.*')
-      .where('profile_id in (?)', profile_ids)
-      .order(profile_id: :desc, created_at: :asc)
-      .joins(:search_result)
-      .where(search_results: {search_query_id: search_query_id})
-      .to_a
-      .sort { |item1, item2| item2.created_at <=> item1.created_at }
+            .select('distinct on (search_items.profile_id) search_items.*')
+            .where('profile_id in (?)', profile_ids)
+            .order(profile_id: :desc, created_at: :asc)
+            .joins(:search_result)
+            .where(search_results: {search_query_id: search_query_id})
+            .to_a
+            .sort { |item1, item2| item2.created_at <=> item1.created_at }
   end
 
   def warm_up_cache
@@ -70,8 +70,9 @@ class SearchResult < ActiveRecord::Base
 
   def diffable_hash
     result = search_items_hash
-    result[:created_at] = created_at
-    result
+    result[:created_at] = created_at.utc
+    result[:id] = id
+    result.stringify_keys
   end
 
   def search_items_hash

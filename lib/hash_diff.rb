@@ -12,6 +12,9 @@ end
 class HashDiff
   attr_reader :hash1, :hash2
 
+  ADDED = '__added__'
+  DELETED = '__deleted__'
+
   def initialize hash1, hash2, options = {}
     @hash1, @hash2 = hash1.freeze, hash2.freeze
 
@@ -45,8 +48,8 @@ class HashDiff
       result[key] = self.class.diff_if_hashes(hash1[key], hash2[key])
     end
 
-    result[:__deleted__] = removed_keys.to_a if removed_keys.any?
-    result[:__added__] = added_keys.to_a if added_keys.any?
+    result[DELETED] = removed_keys.to_a if removed_keys.any?
+    result[ADDED] = added_keys.to_a if added_keys.any?
     result
   end
 
@@ -82,7 +85,7 @@ class HashDiff
     object.respond_to?(:[]) && object.respond_to?(:keys) && object.respond_to?(:values)
   end
 
-  def self.patch(hash, diff)
+  def self.patch!(hash, diff)
     return diff unless is_kind_of_hashy(hash) && is_kind_of_hashy(diff)
 
     validate_patch hash, diff
@@ -90,11 +93,11 @@ class HashDiff
     result = hash.dup
 
     diff.keys.each do |k|
-      result[k] = patch(result[k], diff[k]) unless k == :__added__ || k == :__deleted__
+      result[k] = patch!(result[k], diff[k]) unless k == ADDED || k == DELETED
     end
 
-    if diff.has_key? :__deleted__
-      diff[:__deleted__].each do |key|
+    if diff.has_key? DELETED
+      diff[DELETED].each do |key|
         result.delete key
       end
     end
@@ -103,15 +106,15 @@ class HashDiff
   end
 
   def self.validate_patch orig, patch
-    if patch.has_key? :__deleted__
-      patch[:__deleted__].each do |key|
+    if patch.has_key? DELETED
+      patch[DELETED].each do |key|
         raise "Deleted key \"#{key}\" doesn't exist in original hash" unless orig.has_key? key
         raise "Deleted key \"#{key}\" exist in HashPatch" if patch.has_key? key
       end
     end
 
-    if patch.has_key? :__added__
-      patch[:__added__].each do |key|
+    if patch.has_key? ADDED
+      patch[ADDED].each do |key|
         raise "Added key \"#{key}\" exists in original hash" if orig.has_key? key
         raise "Key from __added__ array is missing in patch" unless patch.has_key? key
       end
