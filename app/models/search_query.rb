@@ -117,11 +117,13 @@ class SearchQuery < ActiveRecord::Base
     }
   end
 
-  def export_to_diff_store! diff_store = diff_store, batch_size: 50
+  def export_to_diff_store! diff_store: self.diff_store, batch_size: 50
     diff_store.collection.drop
 
+    last = nil
+
     search_results.includes(:search_items).find_in_batches batch_size: batch_size do |group|
-      diff_store.push_multiple! group.lazy.map { |sr| sr.diffable_hash  }
+      last = diff_store.push_multiple! group.lazy.map { |sr| sr.diffable_hash  }, last
     end
 
     # diff_store.push_multiple! self.search_results.find_each(batch_size: batch_size)

@@ -33,8 +33,8 @@ class MongoDiffStore
     push_multiple! [data]
   end
 
-  def push_multiple! data_enumerable
-    current = latest || {}
+  def push_multiple! data_enumerable, last_item = nil
+    current = last_item || latest || {}
 
     data_enumerable.each do |data|
       data = data.stringify_keys
@@ -43,6 +43,8 @@ class MongoDiffStore
 
       current = data
     end
+
+    current
   end
 
   def push_single! current, new_object
