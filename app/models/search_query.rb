@@ -154,7 +154,7 @@ exp >> store: #{debug_diff.call expected.except('created_at', '_id'), actual}
   end
 
   def diff_store
-    md = MongoDiffStore.new 'cs_tracker_collected_data', "search_query_#{id}", safe: false
+    md = MongoDiffStore.new (ENV['DIFF_STORE'] || 'cs_tracker_collected_data'), "search_query_#{id}", safe: false
   end
 
 end
