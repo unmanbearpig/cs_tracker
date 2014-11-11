@@ -91,19 +91,26 @@ class MongoDiffStore
     newest_first.one
   end
 
+
+
+  def newest_first raw: false
+    sorted({created_at: -1}, raw: raw)
+  end
+
+  def oldest_first raw: false
+    sorted({created_at: 1}, raw: raw)
+  end
+
+  def sorted sorting, raw: false
+    query.sort(sorting)
+      .lazy.map { |obj| deserialize obj, raw: raw }
+  end
+
   protected
 
-  def newest_first
-    query.sort(created_at: -1)
-      .lazy.map { |obj| deserialize obj }
-  end
+  def deserialize obj, raw: false
+    return obj if raw
 
-  def oldest_first
-    query.sort(created_at: 1)
-      .lazy.map { |obj| deserialize obj }
-  end
-
-  def deserialize obj
     return nil unless obj
     return obj['diff'] if obj.has_key? 'diff'
   end

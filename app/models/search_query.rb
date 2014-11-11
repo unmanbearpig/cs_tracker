@@ -118,8 +118,7 @@ class SearchQuery < ActiveRecord::Base
   end
 
   def export_to_diff_store! diff_store: self.diff_store, batch_size: 50, continue: false
-
-    diff_store.collection.drop unless continue
+    diff_store.initialize_collection!
 
     last = (continue ? diff_store.last : nil)
 
