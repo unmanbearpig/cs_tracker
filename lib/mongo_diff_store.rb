@@ -47,6 +47,16 @@ class MongoDiffStore
     current
   end
 
+  def initialize_collection!
+    collection.drop
+    create_indexes!
+  end
+
+  def create_indexes!
+    collection.indexes.create({id: 1}, {unique: true})
+    collection.indexes.create({created_at: 1})
+  end
+
   def push_single! current, new_object
     diff = HashDiff.diff(current, new_object, ignore_keys: META_KEYS)
     insert 'diff' => diff, 'id' => new_object['id'], 'created_at' => new_object['created_at']
