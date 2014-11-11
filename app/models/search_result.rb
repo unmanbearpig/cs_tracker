@@ -70,9 +70,9 @@ class SearchResult < ActiveRecord::Base
 
   def diffable_hash
     result = search_items_hash
-    result[:created_at] = created_at.utc
-    result[:id] = id
-    result.stringify_keys
+    result['created_at'] = created_at.utc
+    result['id'] = id
+    result
   end
 
   def search_items_hash
