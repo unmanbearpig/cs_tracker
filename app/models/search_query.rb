@@ -125,10 +125,7 @@ class SearchQuery < ActiveRecord::Base
     search_results.where("id > ?", (continue ? last['id'] : 0)).includes(:search_items).find_in_batches batch_size: batch_size do |group|
       last = diff_store.push_multiple! group.lazy.map { |sr| sr.diffable_hash  }, last
     end
-
-    # diff_store.push_multiple! self.search_results.find_each(batch_size: batch_size)
-    #   .lazy.map { |sr| sr.diffable_hash }
-  end
+ end
 
   def verify_diff_store! diff_store = diff_store
     raise 'Unexpected diff store size' unless diff_store.size == self.search_results.size
